@@ -3,9 +3,8 @@
 #include <EEPROM.h>
 #include "config.h"
 
-// Uncomment to build the label and seal app.
-// If commented the password typing app is built.
-//#define BUILD_LABEL_AND_SEAL
+// Uncomment to build the label and seal app. If commented the password typing app is built.
+#define BUILD_LABEL_AND_SEAL
 
 #define MAX_STRING_SIZE 32
 #define EEPROM_LABEL 0
@@ -29,12 +28,40 @@
 #endif
 #endif
 
+void printBanner()
+{
+  char buffer[MAX_STRING_SIZE];
+
+  DigiKeyboard.print("LABEL: ");
+  DigiKeyboard.println(readStringFromEEPROM(EEPROM_LABEL, MAX_STRING_SIZE, buffer));
+
+  DigiKeyboard.print("SEAL: ");
+  DigiKeyboard.println(readStringFromEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, buffer));
+
+  DigiKeyboard.print("TS: ");
+  DigiKeyboard.println(readStringFromEEPROM(EEPROM_SEALED_AT, MAX_STRING_SIZE, buffer));
+
+  DigiKeyboard.println("Kayboard Layout: US");
+  DigiKeyboard.println("Hash: #");
+  DigiKeyboard.println("Backslash: \\");
+}
+
 void setup()
 {
   pinMode(BUTTON_GND, OUTPUT);
   digitalWrite(BUTTON_GND, LOW);
 
   pinMode(BUTTON_SENSE, INPUT_PULLUP);
+
+  if (digitalRead(BUTTON_SENSE) == LOW)
+  {
+    printBanner();
+    while (digitalRead(BUTTON_SENSE) == LOW)
+    {
+      DigiKeyboard.delay(100);
+    }
+    DigiKeyboard.delay(100);
+  }
 }
 
 char *readStringFromEEPROM(uint8_t address, uint8_t len, char *buffer)
@@ -58,30 +85,13 @@ void writeStringToEEPROM(uint8_t address, uint8_t len, char *buffer)
 
 void loop()
 {
-  char buffer[MAX_STRING_SIZE];
-
 #ifdef BUILD_LABEL_AND_SEAL
   writeStringToEEPROM(EEPROM_LABEL, MAX_STRING_SIZE, PWD_TOKEN_LABEL);
   writeStringToEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, PWD_TOKEN_SEAL);
   writeStringToEEPROM(EEPROM_SEALED_AT, MAX_STRING_SIZE, PWD_TOKEN_SEALED_AT);
-#endif
-
+#else
   DigiKeyboard.sendKeyStroke(0);
 
-  DigiKeyboard.print("LABEL: ");
-  DigiKeyboard.println(readStringFromEEPROM(EEPROM_LABEL, MAX_STRING_SIZE, buffer));
-
-  DigiKeyboard.print("SEAL: ");
-  DigiKeyboard.println(readStringFromEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, buffer));
-
-  DigiKeyboard.print("TS: ");
-  DigiKeyboard.println(readStringFromEEPROM(EEPROM_SEALED_AT, MAX_STRING_SIZE, buffer));
-
-  DigiKeyboard.println("Kayboard Layout: US");
-  DigiKeyboard.println("Hash: #");
-  DigiKeyboard.println("Backslash: \\");
-
-#ifndef BUILD_LABEL_AND_SEAL
   while (digitalRead(BUTTON_SENSE) == HIGH)
   {
     DigiKeyboard.delay(100);
