@@ -86,6 +86,7 @@ void loop()
   {
     DigiKeyboard.delay(100);
   }
+  writeStringToEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, "void void void void");
   DigiKeyboard.print(PWD_TOKEN_PASSWORD);
 #endif
 
