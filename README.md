@@ -11,7 +11,7 @@ Mostly a novelty, I found it useful to store the guest WiFi password so, trusted
 
 # Store your password
 
-* Copy  the contents of `config_example.h` into a new file `config.h` (this reduces the risk to push passwords to git as `config.h` is `.gitignore`d
+* Copy  the contents of `secrets_example.h` into a new file `secrets.h` (this reduces the risk to push passwords to git as `secrets.h` is `.gitignore`d
 * Edit the password needed
 * Edit the label to something that means something to you (I would avoid the username!)
 * Edit the seal to something you recognize, pretty much anything you can remember and is not sensitive will do
