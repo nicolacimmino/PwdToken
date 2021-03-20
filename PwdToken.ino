@@ -4,7 +4,7 @@
 #include "config.h"
 
 // Uncomment to build the label and seal app. If commented the password typing app is built.
-#define BUILD_LABEL_AND_SEAL
+// #define BUILD_LABEL_AND_SEAL
 
 #define MAX_STRING_SIZE 32
 #define EEPROM_LABEL 0
@@ -13,6 +13,7 @@
 
 #define BUTTON_SENSE 0
 #define BUTTON_GND 2
+#define LED_A 1
 
 #ifdef BUILD_LABEL_AND_SEAL
 #define PWD_TOKEN_SEALED_AT __DATE__ " " __TIME__
@@ -48,6 +49,9 @@ void printBanner()
 
 void setup()
 {
+  pinMode(LED_A, OUTPUT);
+  digitalWrite(LED_A, LOW);
+
   pinMode(BUTTON_GND, OUTPUT);
   digitalWrite(BUTTON_GND, LOW);
 
@@ -92,12 +96,14 @@ void loop()
 #else
   DigiKeyboard.sendKeyStroke(0);
 
+  analogWrite(LED_A, 10);
   while (digitalRead(BUTTON_SENSE) == HIGH)
   {
     DigiKeyboard.delay(100);
   }
   writeStringToEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, "void void void void");
   DigiKeyboard.print(PWD_TOKEN_PASSWORD);
+  digitalWrite(LED_A, LOW);
 #endif
 
   while (1)
