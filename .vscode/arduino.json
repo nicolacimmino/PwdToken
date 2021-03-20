@@ -1,0 +1,5 @@
+{
+    "port": "COM32",
+    "board": "digistump:avr:digispark-tiny",
+    "sketch": "PwdToken.ino"
+}
