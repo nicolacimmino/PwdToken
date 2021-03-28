@@ -2,7 +2,7 @@
 //  PwdTooken.
 //  A hardware implementation of a piece of paper with your password, use with judgment!
 //
-//  
+//
 //  Copyright (C) 2019 Nicola Cimmino
 //
 //    This program is free software: you can redistribute it and/or modify
@@ -34,47 +34,50 @@
 //  * Verify that the LED is lit, this confirms that software loaded is the one capable of typing the password
 
 // Uncomment to build the label and seal app. If commented the password typing app is built.
-// #define BUILD_LABEL_AND_SEAL
+//#define BUILD_LABEL_AND_SEAL
 
 #include <DigiKeyboard.h>
 #include <EEPROM.h>
+#include <CRC32.h>
+#include "utils.h"
 #include "secrets.h"
 #include "config.h"
 
-char *readStringFromEEPROM(uint8_t address, uint8_t len, char *buffer)
+void typeSeal(uint32_t counter)
 {
-  memset(buffer, 0, len);
-  for (uint8_t ix = 0; ix < len; ix++)
-  {
-    buffer[ix] = EEPROM.read(address + ix);
-  }
+  CRC32 crc;
 
-  return buffer;
+  crc.update(counter);
+
+  DigiKeyboard.print(" (");
+  DigiKeyboard.print(counter);
+  DigiKeyboard.print(") - ");
+
+  for (uint8_t ix = 0; ix < PWD_TOKEN_SEAL_SECRET_SIZE; ix++)
+  {
+    crc.update(sealSecret[ix]);
+  }
+  typeHex(crc.finalize());
+
+  DigiKeyboard.println("");  
 }
 
-void writeStringToEEPROM(uint8_t address, uint8_t len, char *buffer)
+uint32_t getBootCounter()
 {
-  for (uint8_t ix = 0; ix < len; ix++)
-  {
-    EEPROM.write(address + ix, buffer[ix]);
-  }
+  uint32_t bootCounter;
+  EEPROM.get(EEPROM_BOOT_COUNT, bootCounter);
+
+  return bootCounter;
+}
+
+void incrementbootCounter()
+{
+  EEPROM.put(EEPROM_BOOT_COUNT, getBootCounter() + 1);
 }
 
 void printBanner()
 {
-  char buffer[MAX_STRING_SIZE];
-
-  // A user defined label identifying this device.
-  DigiKeyboard.print("LABEL: ");
-  DigiKeyboard.println(readStringFromEEPROM(EEPROM_LABEL, MAX_STRING_SIZE, buffer));
-
-  // A user defined seal proving the password has never been typed.
-  DigiKeyboard.print("SEAL: ");
-  DigiKeyboard.println(readStringFromEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, buffer));
-
-  // Date and time of the seal.
-  DigiKeyboard.print("TS: ");
-  DigiKeyboard.println(readStringFromEEPROM(EEPROM_SEALED_AT, MAX_STRING_SIZE, buffer));
+  typeSeal(getBootCounter());
 
   // A guide to ensure they current keyboard layout is US.
   DigiKeyboard.println("Kayboard Layout: US");
@@ -84,8 +87,10 @@ void printBanner()
 
 void setup()
 {
+  incrementbootCounter();
+
   // To simplify HW assembly we use a pin as the ground so
-  // the LED and the button can be soldered directly to the 
+  // the LED and the button can be soldered directly to the
   // board without the need of additional boards or flimsy
   // wire-wrapping.
   pinMode(PIN_GND, OUTPUT);
@@ -112,11 +117,6 @@ void setup()
 
 void loop()
 {
-#ifdef BUILD_LABEL_AND_SEAL
-  writeStringToEEPROM(EEPROM_LABEL, MAX_STRING_SIZE, PWD_TOKEN_LABEL);
-  writeStringToEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, PWD_TOKEN_SEAL);
-  writeStringToEEPROM(EEPROM_SEALED_AT, MAX_STRING_SIZE, PWD_TOKEN_SEALED_AT);
-#else
   DigiKeyboard.sendKeyStroke(0);
 
   analogWrite(LED_A, 10);
@@ -127,12 +127,11 @@ void loop()
 
   // Break the seal.
   writeStringToEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, BROKEN_SEAL);
-  
+
   // Spit out the password.
   DigiKeyboard.print(PWD_TOKEN_PASSWORD);
-  
+
   digitalWrite(LED_A, LOW);
-#endif
 
   while (1)
   {

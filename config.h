@@ -4,6 +4,7 @@
 #define EEPROM_LABEL 0
 #define EEPROM_SEAL 32
 #define EEPROM_SEALED_AT 64
+#define EEPROM_BOOT_COUNT 96
 
 #define BUTTON_SENSE 0
 #define PIN_GND 2
