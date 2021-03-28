@@ -43,23 +43,19 @@
 #include "secrets.h"
 #include "config.h"
 
-void typeSeal(uint32_t counter)
+uint32_t getOTP(uint32_t counter)
 {
   CRC32 crc;
 
   crc.update(counter);
 
-  DigiKeyboard.print(" (");
-  DigiKeyboard.print(counter);
-  DigiKeyboard.print(") - ");
-
   for (uint8_t ix = 0; ix < PWD_TOKEN_SEAL_SECRET_SIZE; ix++)
   {
     crc.update(sealSecret[ix]);
   }
-  typeHex(crc.finalize());
+  uint32_t otp = crc.finalize();
 
-  DigiKeyboard.println("");  
+  return otp % 100000;
 }
 
 uint32_t getBootCounter()
@@ -70,14 +66,33 @@ uint32_t getBootCounter()
   return bootCounter;
 }
 
-void incrementbootCounter()
+void incrementBootCounter()
 {
   EEPROM.put(EEPROM_BOOT_COUNT, getBootCounter() + 1);
 }
 
+uint32_t getTypeCounter()
+{
+  uint32_t typeCounter;
+  EEPROM.get(EEPROM_TYPE_COUNT, typeCounter);
+
+  return typeCounter;
+}
+
+void incrementTypeCounter()
+{
+  EEPROM.put(EEPROM_TYPE_COUNT, getTypeCounter() + 1);
+}
+
 void printBanner()
 {
-  typeSeal(getBootCounter());
+  DigiKeyboard.println("LBL: " PWD_TOKEN_LABEL);
+
+  DigiKeyboard.print("OTP1: ");
+  DigiKeyboard.println(getOTP(getBootCounter()));
+
+  DigiKeyboard.print("OTP2: ");
+  DigiKeyboard.println(getOTP(getTypeCounter()));
 
   // A guide to ensure they current keyboard layout is US.
   DigiKeyboard.println("Kayboard Layout: US");
@@ -87,7 +102,7 @@ void printBanner()
 
 void setup()
 {
-  incrementbootCounter();
+  incrementBootCounter();
 
   // To simplify HW assembly we use a pin as the ground so
   // the LED and the button can be soldered directly to the
@@ -125,11 +140,10 @@ void loop()
     DigiKeyboard.delay(100);
   }
 
-  // Break the seal.
-  writeStringToEEPROM(EEPROM_SEAL, MAX_STRING_SIZE, BROKEN_SEAL);
+  incrementTypeCounter();
 
   // Spit out the password.
-  DigiKeyboard.print(PWD_TOKEN_PASSWORD);
+  DigiKeyboard.print(F(PWD_TOKEN_PASSWORD));
 
   digitalWrite(LED_A, LOW);
 
