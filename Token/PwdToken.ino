@@ -43,19 +43,25 @@
 #include "secrets.h"
 #include "config.h"
 
+CRC32 crc;
+
 uint32_t getOTP(uint32_t counter)
 {
-  CRC32 crc;
-
-  crc.update(counter);
+  crc.reset();
 
   for (uint8_t ix = 0; ix < PWD_TOKEN_SEAL_SECRET_SIZE; ix++)
   {
     crc.update(sealSecret[ix]);
   }
+
+  for (uint8_t ix = 0; ix < 4; ix++)
+  {
+    crc.update((uint8_t)((counter >> (ix * 8)) & 0xFF));
+  }
+
   uint32_t otp = crc.finalize();
 
-  return otp % 100000;
+  return otp;
 }
 
 uint32_t getBootCounter()
@@ -87,6 +93,8 @@ void incrementTypeCounter()
 void printBanner()
 {
   DigiKeyboard.println("LBL: " PWD_TOKEN_LABEL);
+
+  DigiKeyboard.println(getBootCounter());
 
   DigiKeyboard.print("OTP1: ");
   DigiKeyboard.println(getOTP(getBootCounter()));
