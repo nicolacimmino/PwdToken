@@ -86,15 +86,14 @@ uint32_t getTypeCounter()
 }
 
 void incrementTypeCounter()
-{
+{  
   EEPROM.put(EEPROM_TYPE_COUNT, getTypeCounter() + 1);
 }
 
 void printBanner()
 {
+  DigiKeyboard.println("----- begin -----");
   DigiKeyboard.println("LBL: " PWD_TOKEN_LABEL);
-
-  DigiKeyboard.println(getBootCounter());
 
   DigiKeyboard.print("OTP1: ");
   DigiKeyboard.println(getOTP(getBootCounter()));
@@ -102,10 +101,11 @@ void printBanner()
   DigiKeyboard.print("OTP2: ");
   DigiKeyboard.println(getOTP(getTypeCounter()));
 
-  // A guide to ensure they current keyboard layout is US.
-  DigiKeyboard.println("Kayboard Layout: US");
+  // A guide to ensure the current keyboard layout is US.
+  DigiKeyboard.println("Layout: US");
   DigiKeyboard.println("Hash: #");
   DigiKeyboard.println("Backslash: \\");
+  DigiKeyboard.println("----- end -----");
 }
 
 void setup()

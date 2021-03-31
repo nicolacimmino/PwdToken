@@ -5,7 +5,7 @@
 #ifndef __SECRETS_H__
 #define __SECRETS_H__
 
-#define PWD_TOKEN_LABEL "TST#002"
+#define PWD_TOKEN_LABEL "TST002"
 
 #define PWD_TOKEN_SEAL_SECRET_SIZE 16
 

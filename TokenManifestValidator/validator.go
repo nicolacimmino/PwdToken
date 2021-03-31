@@ -1,12 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/atotto/clipboard"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type Manifest struct {
@@ -17,11 +19,78 @@ type Manifest struct {
 }
 
 func main() {
+
+	fmt.Println("Copy manifest...")
+
+	manifest := getManifest()
+
+	fmt.Println("Insert token and hold key...")
+
+	banner := readBanner()
+
+	if manifest.Label != banner["LBL"] {
+		fmt.Println("Banner/token mismatch.")
+		os.Exit(1)
+	}
+
+	expectedOtp1, err := strconv.Atoi(banner["OTP1"])
+
+	if err != nil {
+		fmt.Println("Invalid OTP1")
+		os.Exit(1)
+	}
+
+	newCounter1 := getNewOTPCounter("OTP1", manifest.Counter1, uint32(expectedOtp1), manifest.Secret)
+
+	expectedOtp2, err := strconv.Atoi(banner["OTP2"])
+
+	if err != nil {
+		fmt.Println("Invalid OTP2")
+		os.Exit(1)
+	}
+
+	newCounter2 := getNewOTPCounter("OTP2", manifest.Counter2, uint32(expectedOtp2), manifest.Secret)
+
+	if newCounter1 != manifest.Counter1 || newCounter2 != manifest.Counter2 {
+		manifest.Counter1 = newCounter1
+		manifest.Counter2 = newCounter2
+
+		jsonManifestString, _ := json.Marshal(manifest)
+
+		clipboard.WriteAll(base64.StdEncoding.EncodeToString(jsonManifestString))
+
+		fmt.Println("New manifest in clipboard.")
+	}
+}
+
+func getNewOTPCounter(otpName string, expectedCounter uint32, expectedOTP uint32, secret []byte) uint32 {
+	var offset uint32 = 0
+	var otp uint32 = 0
+	for {
+		otp = calculateOTP(expectedCounter+offset, secret)
+		if otp == expectedOTP {
+			break
+		}
+		offset++
+		if offset > 1000 {
+			fmt.Println("Cannot match counter, offset over 1000")
+			os.Exit(1)
+		}
+	}
+
+	if offset > 0 {
+		fmt.Printf("%s advanced to %d (+%d)\n", otpName, expectedCounter+offset, offset)
+	} else {
+		fmt.Printf("%s match.\n", otpName)
+	}
+
+	return expectedCounter + offset
+}
+
+func getManifest() Manifest {
 	var encodedManifest string = ""
 	var jsonManifest []byte
 	var manifest Manifest
-
-	fmt.Println("Copy manifest...")
 
 	clipboard.WriteAll("")
 
@@ -35,51 +104,9 @@ func main() {
 		json.Unmarshal(jsonManifest, &manifest)
 	}
 
-	fmt.Println(manifest)
-
 	clipboard.WriteAll("")
 
-	fmt.Println("Copy OTP...")
-
-	expectedOtp := 0
-	for expectedOtp == 0 {
-		otpString, _ := clipboard.ReadAll()
-		expectedOtp, _ = strconv.Atoi(otpString)
-	}
-
-	clipboard.WriteAll("")
-
-	fmt.Println("Validating...")
-
-	var offset uint32 = 0
-	var otp uint32 = 0
-	for {
-		otp = getOTP(manifest.Counter1+offset, manifest.Secret)
-		if otp == uint32(expectedOtp) {
-			break
-		}
-		offset++
-		if offset > 1000 {
-			fmt.Println("Cannot match counter, offset over 1000")
-			os.Exit(1)
-		}
-	}
-
-	fmt.Println("LBL: ", manifest.Label)
-
-	if offset > 0 {
-		fmt.Println("Counter advanced to ", manifest.Counter1+offset)
-
-		manifest.Counter1 = manifest.Counter1 + offset
-
-		jsonManifestString, _ := json.Marshal(manifest)
-
-		clipboard.WriteAll(base64.StdEncoding.EncodeToString(jsonManifestString))
-
-		fmt.Println("New manifest in clipboard.")
-	} else {
-		fmt.Println("Counter match.")
-	}
+	return manifest
 }
 
 /*
@@ -89,7 +116,7 @@ func main() {
  * while the Arduino one, out of necessity, is based on a table
  * with 16 values.
  */
-func getOTP(counter uint32, data []byte) uint32 {
+func calculateOTP(counter uint32, data []byte) uint32 {
 
 	ix := 0
 	for ix < 4 {
@@ -117,4 +144,36 @@ func getOTP(counter uint32, data []byte) uint32 {
 	}
 
 	return ^state
+}
+
+func parseBannerLine(bannerLine string) (string, string, string) {
+	tokens := strings.Split(bannerLine, ":")
+
+	if len(tokens) != 2 {
+		return "", "", "NO_LABEL"
+	}
+
+	return strings.Trim(tokens[0], " "), strings.Trim(tokens[1], " "), ""
+}
+
+func readBanner() map[string]string {
+
+	bannerValues := make(map[string]string)
+
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		bannerLine := scanner.Text()
+
+		if strings.Contains(bannerLine, "-- end --") {
+			break
+		}
+
+		label, value, err := parseBannerLine(bannerLine)
+
+		if err == "" {
+			bannerValues[label] = value
+		}
+	}
+
+	return bannerValues
 }
