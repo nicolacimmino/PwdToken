@@ -14,26 +14,35 @@ type Manifest struct {
 	Secret   []byte
 }
 
-func GetManifestData() Manifest {
-	var encodedManifest string = ""
+type manifestReader struct {
+	manifest Manifest
+}
+
+func NewManifestReader() *manifestReader {
+	manifestReader := manifestReader{}
+
+	return &manifestReader
+}
+
+func (manifestReader *manifestReader) ReadManifest() Manifest {
+	var encodedManifest = ""
 	var jsonManifest []byte
-	var manifest Manifest
 
 	fmt.Println("Copy manifestData...")
 
 	clipboard.WriteAll("")
 
-	for len(manifest.Secret) == 0 {
+	for len(manifestReader.manifest.Secret) == 0 {
 		for encodedManifest == "" {
 			encodedManifest, _ = clipboard.ReadAll()
 		}
 
 		jsonManifest, _ = base64.StdEncoding.DecodeString(encodedManifest)
 
-		json.Unmarshal(jsonManifest, &manifest)
+		json.Unmarshal(jsonManifest, &manifestReader.manifest)
 	}
 
 	clipboard.WriteAll("")
 
-	return manifest
+	return manifestReader.manifest
 }

@@ -1,16 +1,40 @@
 package otp
 
 import (
+	"../banner"
+	"../manifest"
 	"fmt"
 	"os"
 )
 
-func GetNewOTPCounter(otpName string, expectedCounter uint32, expectedOTP uint32, secret []byte) uint32 {
+type otpGenerator struct {
+	banner   banner.Banner
+	manifest manifest.Manifest
+}
+
+func NewOtpGenerator(banner banner.Banner, manifest manifest.Manifest) *otpGenerator {
+	otpGenerator := otpGenerator{
+		banner:   banner,
+		manifest: manifest,
+	}
+
+	return &otpGenerator
+}
+
+func (otpGenerator *otpGenerator) FindNewOTP1Counter() uint32 {
+	return otpGenerator.findNewOTPCounter("OTP1", otpGenerator.manifest.Counter1, otpGenerator.banner.Otp1)
+}
+
+func (otpGenerator *otpGenerator) FindNewOTP2Counter() uint32 {
+	return otpGenerator.findNewOTPCounter("OTP2", otpGenerator.manifest.Counter2, otpGenerator.banner.Otp2)
+}
+
+func (otpGenerator *otpGenerator) findNewOTPCounter(otpName string, expectedCounter uint32, expectedOtp uint32) uint32 {
 	var offset uint32 = 0
 	var otp uint32 = 0
 	for {
-		otp = calculateOTP(expectedCounter+offset, secret)
-		if otp == expectedOTP {
+		otp = calculateOTP(expectedCounter+offset, otpGenerator.manifest.Secret)
+		if otp == expectedOtp {
 			break
 		}
 		offset++
@@ -26,7 +50,7 @@ func GetNewOTPCounter(otpName string, expectedCounter uint32, expectedOTP uint32
 		fmt.Printf("%s match.\n", otpName)
 	}
 
-	return expectedCounter + offset
+	return otpGenerator.manifest.Counter1 + offset
 }
 
 /*

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./bannerReader"
+	"./banner"
 	"./manifest"
 	"./otp"
 	"encoding/base64"
@@ -12,38 +12,32 @@ import (
 )
 
 func main() {
-	manifestData := manifest.GetManifestData()
 
-	banner := bannerReader.NewBanner()
+	manifestReader := manifest.NewManifestReader()
+	bannerReader := banner.NewBannerReader()
 
-	if manifestData.Label != banner.GetLabel() {
+	readManifest := manifestReader.ReadManifest()
+	readBanner := bannerReader.ReadBanner()
+
+	fmt.Println(readManifest)
+	fmt.Println(readBanner)
+
+	if readManifest.Label != readBanner.Label {
 		fmt.Println("Banner/token mismatch.")
 		os.Exit(1)
 	}
 
-	expectedOtp1, err := banner.GetOTP1()
+	otpGenerator := otp.NewOtpGenerator(readBanner, readManifest)
 
-	if err != nil {
-		fmt.Println("Invalid OTP1")
-		os.Exit(1)
-	}
+	newCounter1 := otpGenerator.FindNewOTP1Counter()
 
-	expectedOtp2, err := banner.GetOTP2()
+	newCounter2 := otpGenerator.FindNewOTP2Counter()
 
-	if err != nil {
-		fmt.Println("Invalid OTP2")
-		os.Exit(1)
-	}
+	if newCounter1 != readManifest.Counter1 || newCounter2 != readManifest.Counter2 {
+		readManifest.Counter1 = newCounter1
+		readManifest.Counter2 = newCounter2
 
-	newCounter1 := otp.GetNewOTPCounter("OTP1", manifestData.Counter1, uint32(expectedOtp1), manifestData.Secret)
-
-	newCounter2 := otp.GetNewOTPCounter("OTP2", manifestData.Counter2, uint32(expectedOtp2), manifestData.Secret)
-
-	if newCounter1 != manifestData.Counter1 || newCounter2 != manifestData.Counter2 {
-		manifestData.Counter1 = newCounter1
-		manifestData.Counter2 = newCounter2
-
-		jsonManifestString, _ := json.Marshal(manifestData)
+		jsonManifestString, _ := json.Marshal(readManifest)
 
 		clipboard.WriteAll(base64.StdEncoding.EncodeToString(jsonManifestString))
 
