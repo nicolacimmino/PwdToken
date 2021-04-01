@@ -19,24 +19,32 @@ func NewManifestReader() *manifestReader {
 
 func (manifestReader *manifestReader) ReadManifest() Manifest {
 	var encodedManifest = ""
-	var jsonManifest []byte
 
 	fmt.Println("Copy manifestData...")
 
 	_ = clipboard.WriteAll("")
 
-	for len(manifestReader.manifest.Secret) == 0 {
+	for true {
 		for encodedManifest == "" {
 			encodedManifest, _ = clipboard.ReadAll()
 		}
 
-		jsonManifest, _ = base64.StdEncoding.DecodeString(encodedManifest)
+		// We expect the manifest to be base64 encoded.
+		jsonManifest, err := base64.StdEncoding.DecodeString(encodedManifest)
 
-		err := json.Unmarshal(jsonManifest, &manifestReader.manifest)
-
+		// If it's not it might be it's just plain JSON.
 		if err != nil {
-			fmt.Println("Bad manifest, ignoring.")
+			jsonManifest = []byte(encodedManifest)
 		}
+
+		err = json.Unmarshal(jsonManifest, &manifestReader.manifest)
+
+		// We got a valid manifest.
+		if err == nil {
+			break
+		}
+
+		encodedManifest = ""
 	}
 
 	_ = clipboard.WriteAll("")
