@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./banner"
+	"./bannerReader"
 	"./manifest"
 	"./otp"
 	"encoding/base64"
@@ -9,39 +9,33 @@ import (
 	"fmt"
 	"github.com/atotto/clipboard"
 	"os"
-	"strconv"
 )
 
 func main() {
+	manifestData := manifest.GetManifestData()
 
-	fmt.Println("Copy manifestData...")
+	banner := bannerReader.NewBanner()
 
-	manifestData := manifest.GetManifest()
-
-	fmt.Println("Insert token and hold key...")
-
-	bannerData := banner.ReadBanner()
-
-	if manifestData.Label != bannerData["LBL"] {
+	if manifestData.Label != banner.GetLabel() {
 		fmt.Println("Banner/token mismatch.")
 		os.Exit(1)
 	}
 
-	expectedOtp1, err := strconv.Atoi(bannerData["OTP1"])
+	expectedOtp1, err := banner.GetOTP1()
 
 	if err != nil {
 		fmt.Println("Invalid OTP1")
 		os.Exit(1)
 	}
 
-	newCounter1 := otp.GetNewOTPCounter("OTP1", manifestData.Counter1, uint32(expectedOtp1), manifestData.Secret)
-
-	expectedOtp2, err := strconv.Atoi(bannerData["OTP2"])
+	expectedOtp2, err := banner.GetOTP2()
 
 	if err != nil {
 		fmt.Println("Invalid OTP2")
 		os.Exit(1)
 	}
+
+	newCounter1 := otp.GetNewOTPCounter("OTP1", manifestData.Counter1, uint32(expectedOtp1), manifestData.Secret)
 
 	newCounter2 := otp.GetNewOTPCounter("OTP2", manifestData.Counter2, uint32(expectedOtp2), manifestData.Secret)
 

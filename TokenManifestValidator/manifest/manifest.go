@@ -3,6 +3,7 @@ package manifest
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/atotto/clipboard"
 )
 
@@ -13,10 +14,12 @@ type Manifest struct {
 	Secret   []byte
 }
 
-func GetManifest() Manifest {
+func GetManifestData() Manifest {
 	var encodedManifest string = ""
 	var jsonManifest []byte
 	var manifest Manifest
+
+	fmt.Println("Copy manifestData...")
 
 	clipboard.WriteAll("")
 
