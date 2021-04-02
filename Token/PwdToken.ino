@@ -91,7 +91,7 @@ uint32_t getTypeCounter()
 }
 
 void incrementTypeCounter()
-{  
+{
   EEPROM.put(EEPROM_TYPE_COUNT, getTypeCounter() + 1);
 }
 
@@ -143,20 +143,61 @@ void setup()
   }
 }
 
+uint8_t selectedPasswordIx = 0;
+
+void selectPassword()
+{
+  while (1)
+  {
+    while (digitalRead(BUTTON_SENSE) == HIGH)
+    {
+      DigiKeyboard.delay(100);
+    }
+
+    DigiKeyboard.delay(100);
+
+    unsigned long pressStart = millis();
+    while (digitalRead(BUTTON_SENSE) == LOW)
+    {
+      DigiKeyboard.delay(100);
+      if (millis() - pressStart > 2000)
+      {
+        return;
+      }
+    }
+
+    selectedPasswordIx = (selectedPasswordIx + 1) % PASWWORDS_COUNT;
+
+    DigiKeyboard.delay(100);
+  }
+}
+
 void loop()
 {
   DigiKeyboard.sendKeyStroke(0);
 
   analogWrite(LED_A, 10);
-  while (digitalRead(BUTTON_SENSE) == HIGH)
-  {
-    DigiKeyboard.delay(100);
-  }
+
+  selectPassword();
 
   incrementTypeCounter();
 
   // Spit out the password.
-  DigiKeyboard.print(F(PWD_TOKEN_PASSWORD));
+  switch (selectedPasswordIx)
+  {
+  case 0:
+    DigiKeyboard.print(F(PWD_TOKEN_PASSWORD_0));
+    break;
+  case 1:
+    DigiKeyboard.print(F(PWD_TOKEN_PASSWORD_1));
+    break;
+  case 2:
+    DigiKeyboard.print(F(PWD_TOKEN_PASSWORD_2));
+    break;
+  case 3:
+    DigiKeyboard.print(F(PWD_TOKEN_PASSWORD_3));
+    break;
+  }
 
   digitalWrite(LED_A, LOW);
 

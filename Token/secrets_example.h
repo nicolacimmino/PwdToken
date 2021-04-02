@@ -9,9 +9,13 @@
 
 #define PWD_TOKEN_SEAL_SECRET_SIZE 16
 
-uint8_t sealSecret[] = {
-    0x26, 0x25, 0x24, 0x23, 0x26, 0x25, 0x24, 0x23, 0x26, 0x25, 0x24, 0x23, 0x26, 0x25, 0x24, 0x23};
+uint8_t sealSecret[] = {26, 25, 24, 23, 26, 25, 24, 23, 26, 25, 24, 23, 26, 25, 24, 23};
 
-#define PWD_TOKEN_PASSWORD "MySuperSecretPassword"
+#define PASWWORDS_COUNT 4
+
+#define PWD_TOKEN_PASSWORD_0 "MySuperSecretPassword1"
+#define PWD_TOKEN_PASSWORD_1 "MySuperSecretPassword2"
+#define PWD_TOKEN_PASSWORD_2 "MySuperSecretPassword3"
+#define PWD_TOKEN_PASSWORD_3 "MySuperSecretPassword4"
 
 #endif
