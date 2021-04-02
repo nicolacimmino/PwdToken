@@ -14,13 +14,10 @@ import (
 func main() {
 
 	manifestReader := manifest.NewManifestReader()
-	bannerReader := banner.NewBannerReader()
-
 	readManifest := manifestReader.ReadManifest()
-	readBanner := bannerReader.ReadBanner()
 
-	fmt.Println(readManifest)
-	fmt.Println(readBanner)
+	bannerReader := banner.NewBannerReader()
+	readBanner := bannerReader.ReadBanner()
 
 	if readManifest.Label != readBanner.Label {
 		fmt.Println("Banner/token mismatch.")

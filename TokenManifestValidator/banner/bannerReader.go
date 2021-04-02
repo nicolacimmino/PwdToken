@@ -35,7 +35,6 @@ func (bannerReader *bannerReader) ReadBanner() Banner {
 		}
 
 		label, value, numericValue, err := bannerReader.parseBannerLine(bannerLine)
-		fmt.Println(label, value, numericValue, err)
 
 		if err == nil {
 			switch label {

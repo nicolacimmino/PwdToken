@@ -59,6 +59,11 @@ uint32_t getOTP(uint32_t counter)
     crc.update((uint8_t)((counter >> (ix * 8)) & 0xFF));
   }
 
+  for (uint8_t ix = 0; ix < PWD_TOKEN_SEAL_SECRET_SIZE; ix++)
+  {
+    crc.update(sealSecret[ix]);
+  }
+
   uint32_t otp = crc.finalize();
 
   return otp;

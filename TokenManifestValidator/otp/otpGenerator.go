@@ -60,13 +60,17 @@ func (otpGenerator *otpGenerator) findNewOTPCounter(otpName string, expectedCoun
  * while the Arduino one, out of necessity, is based on a table
  * with 16 values.
  */
-func calculateOTP(counter uint32, data []byte) uint32 {
+func calculateOTP(counter uint32, secret []byte) uint32 {
+
+	data := secret
 
 	ix := 0
 	for ix < 4 {
 		data = append(data, byte((counter>>(ix*8))&0xFF))
 		ix++
 	}
+
+	data = append(data, secret...)
 
 	var crc32Table = [16]uint32{
 		0x00000000, 0x1db71064, 0x3b6e20c8, 0x26d930ac,
