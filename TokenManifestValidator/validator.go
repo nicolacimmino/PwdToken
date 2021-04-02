@@ -4,40 +4,43 @@ import (
 	"./banner"
 	"./manifest"
 	"./otp"
-	"encoding/base64"
-	"encoding/json"
 	"fmt"
-	"github.com/atotto/clipboard"
 	"os"
 )
 
 func main() {
 
 	manifestReader := manifest.NewManifestReader()
-	readManifest := manifestReader.ReadManifest()
+	theManifest := manifestReader.ReadManifest()
 
 	bannerReader := banner.NewBannerReader()
-	readBanner := bannerReader.ReadBanner()
+	theBanner := bannerReader.ReadBanner()
 
-	if readManifest.Label != readBanner.Label {
-		fmt.Println("Banner/token mismatch.")
+	if !banner.IsBannerValid(theBanner, theManifest) {
+		fmt.Println("banner/token mismatch")
 		os.Exit(1)
 	}
 
-	otpGenerator := otp.NewOtpGenerator(readBanner, readManifest)
+	otpGenerator := otp.NewOtpGenerator(theBanner, theManifest)
 
-	newCounter1 := otpGenerator.FindNewOTP1Counter()
+	newCounter1, newCounter2, err := otpGenerator.GetNewCounters()
 
-	newCounter2 := otpGenerator.FindNewOTP2Counter()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
-	if newCounter1 != readManifest.Counter1 || newCounter2 != readManifest.Counter2 {
-		readManifest.Counter1 = newCounter1
-		readManifest.Counter2 = newCounter2
+	if newCounter1 != theManifest.Counter1 || newCounter2 != theManifest.Counter2 {
+		theManifest.Counter1 = newCounter1
+		theManifest.Counter2 = newCounter2
 
-		jsonManifestString, _ := json.Marshal(readManifest)
+		manifestWriter := manifest.NewManifestWriter()
 
-		clipboard.WriteAll(base64.StdEncoding.EncodeToString(jsonManifestString))
+		err = manifestWriter.WriteManifest(theManifest)
 
-		fmt.Println("New manifestData in clipboard.")
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 	}
 }

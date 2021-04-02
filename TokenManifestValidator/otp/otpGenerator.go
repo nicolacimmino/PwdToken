@@ -4,7 +4,6 @@ import (
 	"../banner"
 	"../manifest"
 	"fmt"
-	"os"
 )
 
 type otpGenerator struct {
@@ -21,15 +20,32 @@ func NewOtpGenerator(banner banner.Banner, manifest manifest.Manifest) *otpGener
 	return &otpGenerator
 }
 
-func (otpGenerator *otpGenerator) FindNewOTP1Counter() uint32 {
+func (otpGenerator *otpGenerator) GetNewCounters() (uint32, uint32, error) {
+
+	newCounter1, err := otpGenerator.findNewOTP1Counter()
+
+	if err != nil {
+		return 0, 0, err
+	}
+
+	newCounter2, err := otpGenerator.findNewOTP2Counter()
+
+	if err != nil {
+		return 0, 0, err
+	}
+
+	return newCounter1, newCounter2, nil
+}
+
+func (otpGenerator *otpGenerator) findNewOTP1Counter() (uint32, error) {
 	return otpGenerator.findNewOTPCounter("OTP1", otpGenerator.manifest.Counter1, otpGenerator.banner.Otp1)
 }
 
-func (otpGenerator *otpGenerator) FindNewOTP2Counter() uint32 {
+func (otpGenerator *otpGenerator) findNewOTP2Counter() (uint32, error) {
 	return otpGenerator.findNewOTPCounter("OTP2", otpGenerator.manifest.Counter2, otpGenerator.banner.Otp2)
 }
 
-func (otpGenerator *otpGenerator) findNewOTPCounter(otpName string, expectedCounter uint32, expectedOtp uint32) uint32 {
+func (otpGenerator *otpGenerator) findNewOTPCounter(otpName string, expectedCounter uint32, expectedOtp uint32) (uint32, error) {
 	var offset uint32 = 0
 	var otp uint32 = 0
 	for {
@@ -39,8 +55,7 @@ func (otpGenerator *otpGenerator) findNewOTPCounter(otpName string, expectedCoun
 		}
 		offset++
 		if offset > 1000 {
-			fmt.Println("Cannot match counter, offset over 1000")
-			os.Exit(1)
+			return 0, fmt.Errorf("cannot match counter, offset %d", offset)
 		}
 	}
 
@@ -50,7 +65,7 @@ func (otpGenerator *otpGenerator) findNewOTPCounter(otpName string, expectedCoun
 		fmt.Printf("%s match.\n", otpName)
 	}
 
-	return otpGenerator.manifest.Counter1 + offset
+	return otpGenerator.manifest.Counter1 + offset, nil
 }
 
 /*

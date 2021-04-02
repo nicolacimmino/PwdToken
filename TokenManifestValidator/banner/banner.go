@@ -5,4 +5,3 @@ type Banner struct {
 	Otp2  uint32
 	Label string
 }
-
