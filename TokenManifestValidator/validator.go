@@ -11,7 +11,12 @@ import (
 func main() {
 
 	manifestReader := manifest.NewManifestReader()
-	theManifest := manifestReader.ReadManifest()
+	theManifest, err := manifestReader.ReadManifest()
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	bannerReader := banner.NewBannerReader()
 	theBanner := bannerReader.ReadBanner()

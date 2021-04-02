@@ -17,12 +17,16 @@ func NewManifestWriter() *manifestWriter {
 }
 
 func (manifestWriter *manifestWriter) WriteManifest(manifest Manifest) error {
-	jsonManifestString, _ := json.Marshal(manifest)
-
-	err := clipboard.WriteAll(base64.StdEncoding.EncodeToString(jsonManifestString))
+	jsonManifestString, err := json.Marshal(manifest)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to json encode manifest: %s", err)
+	}
+
+	err = clipboard.WriteAll(base64.StdEncoding.EncodeToString(jsonManifestString))
+
+	if err != nil {
+		return fmt.Errorf("failed to write manifest to clipboard: %s", err)
 	}
 
 	fmt.Println("New manifestData in clipboard.")
