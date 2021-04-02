@@ -152,6 +152,17 @@ void selectPassword()
     while (digitalRead(BUTTON_SENSE) == HIGH)
     {
       DigiKeyboard.delay(100);
+      if (millis() % 500 < 200)
+      {
+        if ((millis() / 500) % PASWWORDS_COUNT < selectedPasswordIx + 1)
+        {
+          analogWrite(LED_A, 10);
+        }
+      }
+      else
+      {
+        analogWrite(LED_A, 0);
+      }
     }
 
     DigiKeyboard.delay(100);
