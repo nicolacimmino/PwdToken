@@ -1,9 +1,10 @@
 
 //  PwdTooken.
+//
 //  A hardware implementation of a piece of paper with your password, use with judgment!
 //
 //
-//  Copyright (C) 2019 Nicola Cimmino
+//  Copyright (C) 2021 Nicola Cimmino
 //
 //    This program is free software: you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -21,17 +22,6 @@
 //
 //  Copy  the contents of `secrets_example.h` into a new file `secrets.h` (this reduces the risk to push passwords to git as `secrets.h` is `.gitignore`d
 //
-//  * Edit the password needed
-//  * Edit the label to something that means something to you (I would avoid the username!)
-//  * Edit the seal to something you recognize, pretty much anything you can remember and is not sensitive will do
-//  * **un**comment the line `#define BUILD_LABEL_AND_SEAL`
-//  * Build and program you Digispaspark board
-//
-// This writes the seal. You can now program the actual password:
-//
-//  * **comment** the line `#define BUILD_LABEL_AND_SEAL`
-//  * Build and program you Digispaspark board
-//  * Verify that the LED is lit, this confirms that software loaded is the one capable of typing the password
 
 #include <DigiKeyboard.h>
 #include <EEPROM.h>
@@ -39,6 +29,7 @@
 #include "utils.h"
 #include "secrets.h"
 #include "config.h"
+#include "nbFlash.h"
 
 CRC32 crc;
 
@@ -159,18 +150,8 @@ void selectPassword()
   {
     while (digitalRead(BUTTON_SENSE) == HIGH)
     {
-      DigiKeyboard.delay(100);
-      if (millis() % 500 < 200)
-      {
-        if ((millis() / 500) % PASWWORDS_COUNT < selectedPasswordIx + 1)
-        {
-          analogWrite(LED_A, 10);
-        }
-      }
-      else
-      {
-        analogWrite(LED_A, 0);
-      }
+      DigiKeyboard.delay(10);
+      digitalWrite(LED_A, nbFlash(selectedPasswordIx, false));
     }
 
     digitalWrite(LED_A, LOW);
