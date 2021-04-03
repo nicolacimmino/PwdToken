@@ -204,5 +204,4 @@ void loop()
   strcpy_P(buffer, (char *)pgm_read_word(&(passwords[selectedPasswordIx])));
   DigiKeyboard.print(buffer);
   memset(buffer, 0, MAX_STRING_SIZE);
- 
 }
