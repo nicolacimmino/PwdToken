@@ -1,5 +1,7 @@
 #include "secrets.h"
 
+#define PASWWORDS_COUNT 4
+
 #define MAX_STRING_SIZE 32
 #define EEPROM_LABEL 0
 #define EEPROM_BOOT_COUNT 32

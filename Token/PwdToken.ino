@@ -33,9 +33,6 @@
 //  * Build and program you Digispaspark board
 //  * Verify that the LED is lit, this confirms that software loaded is the one capable of typing the password
 
-// Uncomment to build the label and seal app. If commented the password typing app is built.
-//#define BUILD_LABEL_AND_SEAL
-
 #include <DigiKeyboard.h>
 #include <EEPROM.h>
 #include <CRC32.h>
@@ -45,11 +42,20 @@
 
 CRC32 crc;
 
+uint8_t sealSecret[] = {OTP_SECRET};
+
+const char password1[] PROGMEM = PASSWORD_1;
+const char password2[] PROGMEM = PASSWORD_2;
+const char password3[] PROGMEM = PASSWORD_3;
+const char password4[] PROGMEM = PASSWORD_4;
+
+const char *const passwords[] PROGMEM = {password1, password2, password3, password4};
+
 uint32_t getOTP(uint32_t counter)
 {
   crc.reset();
 
-  for (uint8_t ix = 0; ix < PWD_TOKEN_SEAL_SECRET_SIZE; ix++)
+  for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
   {
     crc.update(sealSecret[ix]);
   }
@@ -59,7 +65,7 @@ uint32_t getOTP(uint32_t counter)
     crc.update((uint8_t)((counter >> (ix * 8)) & 0xFF));
   }
 
-  for (uint8_t ix = 0; ix < PWD_TOKEN_SEAL_SECRET_SIZE; ix++)
+  for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
   {
     crc.update(sealSecret[ix]);
   }
@@ -118,7 +124,7 @@ void setup()
   incrementBootCounter();
 
   // To simplify HW assembly we use a pin as the ground so
-  // the LED and the button can be soldered directly to the
+  // the button can be soldered directly to the
   // board without the need of additional boards or flimsy
   // wire-wrapping.
   pinMode(PIN_GND, OUTPUT);
@@ -128,6 +134,8 @@ void setup()
   digitalWrite(LED_A, LOW);
 
   pinMode(BUTTON_SENSE, INPUT_PULLUP);
+
+  DigiKeyboard.sendKeyStroke(0);
 
   // Press an hold before reset to see the banner.
   if (digitalRead(BUTTON_SENSE) == LOW)
@@ -165,6 +173,8 @@ void selectPassword()
       }
     }
 
+    digitalWrite(LED_A, LOW);
+
     DigiKeyboard.delay(100);
 
     unsigned long pressStart = millis();
@@ -185,35 +195,14 @@ void selectPassword()
 
 void loop()
 {
-  DigiKeyboard.sendKeyStroke(0);
-
-  analogWrite(LED_A, 10);
-
   selectPassword();
 
   incrementTypeCounter();
 
   // Spit out the password.
-  switch (selectedPasswordIx)
-  {
-  case 0:
-    DigiKeyboard.print(F(PWD_TOKEN_PASSWORD_0));
-    break;
-  case 1:
-    DigiKeyboard.print(F(PWD_TOKEN_PASSWORD_1));
-    break;
-  case 2:
-    DigiKeyboard.print(F(PWD_TOKEN_PASSWORD_2));
-    break;
-  case 3:
-    DigiKeyboard.print(F(PWD_TOKEN_PASSWORD_3));
-    break;
-  }
-
-  digitalWrite(LED_A, LOW);
-
-  while (1)
-  {
-    DigiKeyboard.delay(5000);
-  }
+  char buffer[MAX_STRING_SIZE];
+  strcpy_P(buffer, (char *)pgm_read_word(&(passwords[selectedPasswordIx])));
+  DigiKeyboard.print(buffer);
+  memset(buffer, 0, MAX_STRING_SIZE);
+ 
 }

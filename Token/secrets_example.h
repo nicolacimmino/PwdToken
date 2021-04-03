@@ -7,15 +7,13 @@
 
 #define PWD_TOKEN_LABEL "TST002"
 
-#define PWD_TOKEN_SEAL_SECRET_SIZE 16
+#define OTP_SECRET_SIZE 16
 
-uint8_t sealSecret[] = {26, 25, 24, 23, 26, 25, 24, 23, 26, 25, 24, 23, 26, 25, 24, 23};
+#define OTP_SECRET 26, 25, 24, 23, 26, 25, 24, 23, 26, 25, 24, 23, 26, 25, 24, 23
 
-#define PASWWORDS_COUNT 4
-
-#define PWD_TOKEN_PASSWORD_0 "MySuperSecretPassword1"
-#define PWD_TOKEN_PASSWORD_1 "MySuperSecretPassword2"
-#define PWD_TOKEN_PASSWORD_2 "MySuperSecretPassword3"
-#define PWD_TOKEN_PASSWORD_3 "MySuperSecretPassword4"
+#define PASSWORD_1 "MySuperSecretPassword1"
+#define PASSWORD_2 "MySuperSecretPassword2"
+#define PASSWORD_3 "MySuperSecretPassword3"
+#define PASSWORD_4 "MySuperSecretPassword4"
 
 #endif
