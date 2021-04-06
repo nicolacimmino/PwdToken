@@ -21,8 +21,10 @@ func main() {
 	bannerReader := banner.NewBannerReader()
 	theBanner := bannerReader.ReadBanner()
 
-	if !banner.IsBannerValid(theBanner, theManifest) {
-		fmt.Println("banner/token mismatch")
+	err = banner.ValidateBanner(theBanner, theManifest)
+
+	if err != nil {
+		fmt.Println(err)
 		os.Exit(1)
 	}
 
