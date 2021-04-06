@@ -9,21 +9,15 @@ IF you can exclude the Evil Maid scenario this could be something useful which i
 
 Mostly a novelty, I found it useful to store the guest WiFi password so, trusted, guests can just plug this in an log in.
 
-# Store your password
+## Store Passwords
 
-* Copy  the contents of `secrets_example.h` into a new file `secrets.h` (this reduces the risk to push passwords to git as `secrets.h` is `.gitignore`d
-* Edit the password needed
-* Edit the label to something that means something to you (I would avoid the username!)
-* Edit the seal to something you recognize, pretty much anything you can remember and is not sensitive will do
-* Go to PwdToken.ino and **un**comment the line `#define BUILD_LABEL_AND_SEAL`
-* Build and program you Digispaspark board
+Make a copy of `secrets_example.h` to a file named `secrets.h`, edit the passwords and the OTP secret. Build and upload. Wipe `secrets.h`
 
-This writes the seal. You can now program the actual password:
+## Validate Token
 
-* Go to PwdToken.ino and **comment** the line `#define BUILD_LABEL_AND_SEAL`
-* Build and program you Digispaspark board
-* Verify that the LED is lit, this confirms that software loaded is the one capable of typing the password
+See the TokenValidator folder for instructions on how to validate a token, check its OTP and determine if it has been used and how many times.
 
+## Retrieve a Password
 
-
+Insert the token in a USB port and wait until the onboard (red) LED starts to flash slowly (one flash and a few seconds pause). This indicates password 1 is armed. Press repeatedly the button as many times as needed to select the desired password (amount of flashes will change to indicate the selected password). Focus on the application where the password is to be typed and keep the button pressed for a couple of seconds.
 

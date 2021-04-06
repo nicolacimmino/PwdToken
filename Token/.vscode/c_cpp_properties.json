@@ -4,8 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "C:\\Users\\nicola\\AppData\\Local\\Arduino15\\packages\\digistump\\tools\\**",
-                "C:\\Users\\nicola\\AppData\\Local\\Arduino15\\packages\\digistump\\hardware\\avr\\1.6.7\\**"                
-            ],
+                "C:\\Users\\nicola\\AppData\\Local\\Arduino15\\packages\\digistump\\hardware\\avr\\1.6.7\\**",
+                "C:\\Users\\nicola\\Documents\\Arduino\\libraries\\**"                
+            ],            
             "forcedInclude": [],
             "intelliSenseMode": "msvc-x64",
             "compilerPath": "C:\\MinGW\\bin\\gcc.exe",

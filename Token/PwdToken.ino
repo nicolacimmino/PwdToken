@@ -1,27 +1,29 @@
 
-//  PwdTooken.
-//
-//  A hardware implementation of a piece of paper with your password, use with judgment!
-//
-//
-//  Copyright (C) 2021 Nicola Cimmino
-//
-//    This program is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
-//
-//   This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
-//
-//    You should have received a copy of the GNU General Public License
-//    along with this program.  If not, see http://www.gnu.org/licenses/.
-//
-//
-//  Copy  the contents of `secrets_example.h` into a new file `secrets.h` (this reduces the risk to push passwords to git as `secrets.h` is `.gitignore`d
-//
+/****************************************************************************************************************************************************************
+*  PwdToken.
+*
+*  A hardware implementation of a piece of paper with your password, use with judgment!
+*
+*
+*  Copyright (C) 2021 Nicola Cimmino
+*
+*    This program is free software: you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation, either version 3 of the License, or
+*    (at your option) any later version.
+*
+*   This program is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with this program.  If not, see http:*www.gnu.org/licenses/.
+*
+*
+*  Copy  the contents of `secrets_example.h` into a new file `secrets.h` (this reduces the risk to push passwords to git as `secrets.h` is `.gitignore`d
+*
+****************************************************************************************************************************************************************/
 
 #include <DigiKeyboard.h>
 #include <EEPROM.h>
@@ -33,7 +35,7 @@
 
 CRC32 crc;
 
-uint8_t sealSecret[] = {OTP_SECRET};
+uint8_t otpSecret[] = {OTP_SECRET};
 
 const char password1[] PROGMEM = PASSWORD_1;
 const char password2[] PROGMEM = PASSWORD_2;
@@ -48,7 +50,7 @@ uint32_t getOTP(uint32_t counter)
 
   for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
   {
-    crc.update(sealSecret[ix]);
+    crc.update(otpSecret[ix]);
   }
 
   for (uint8_t ix = 0; ix < 4; ix++)
@@ -58,7 +60,7 @@ uint32_t getOTP(uint32_t counter)
 
   for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
   {
-    crc.update(sealSecret[ix]);
+    crc.update(otpSecret[ix]);
   }
 
   uint32_t otp = crc.finalize();
@@ -79,17 +81,17 @@ void incrementBootCounter()
   EEPROM.put(EEPROM_BOOT_COUNT, getBootCounter() + 1);
 }
 
-uint32_t getTypeCounter()
+uint32_t getRetrievalCounter()
 {
-  uint32_t typeCounter;
-  EEPROM.get(EEPROM_TYPE_COUNT, typeCounter);
+  uint32_t retrievalCounter;
+  EEPROM.get(EEPROM_RETRIEVAL_COUNT, retrievalCounter);
 
-  return typeCounter;
+  return retrievalCounter;
 }
 
-void incrementTypeCounter()
+void incrementRetrievalCounter()
 {
-  EEPROM.put(EEPROM_TYPE_COUNT, getTypeCounter() + 1);
+  EEPROM.put(EEPROM_RETRIEVAL_COUNT, getRetrievalCounter() + 1);
 }
 
 void printBanner()
@@ -101,7 +103,7 @@ void printBanner()
   DigiKeyboard.println(getOTP(getBootCounter()));
 
   DigiKeyboard.print("OTP2: ");
-  DigiKeyboard.println(getOTP(getTypeCounter()));
+  DigiKeyboard.println(getOTP(getRetrievalCounter()));
 
   // A guide to ensure the current keyboard layout is US.
   DigiKeyboard.println("Layout: US");
@@ -178,11 +180,15 @@ void loop()
 {
   selectPassword();
 
-  incrementTypeCounter();
+  incrementRetrievalCounter();
 
-  // Spit out the password.
+  // Retrieve the password.
   char buffer[MAX_STRING_SIZE];
   strcpy_P(buffer, (char *)pgm_read_word(&(passwords[selectedPasswordIx])));
+
+  // Spit out the password.
   DigiKeyboard.print(buffer);
+
+  // Wipe it from memory.
   memset(buffer, 0, MAX_STRING_SIZE);
 }
