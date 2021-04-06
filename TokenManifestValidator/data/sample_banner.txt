@@ -1,8 +1,0 @@
------ begin -----
-LBL: TST002
-OTP1: 2075966933
-OTP2: 3848499211
-Layout: US
-Hash: #
-Backslash: \
------ end -----
