@@ -40,13 +40,10 @@ func (bannerReader *bannerReader) ReadBanner() Banner {
 			switch label {
 			case "OTP1":
 				bannerReader.banner.Otp1 = numericValue
-				break
 			case "OTP2":
 				bannerReader.banner.Otp2 = numericValue
-				break
 			case "LBL":
 				bannerReader.banner.Label = value
-				break
 			}
 		}
 	}

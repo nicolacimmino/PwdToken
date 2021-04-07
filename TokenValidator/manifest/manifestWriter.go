@@ -1,10 +1,13 @@
 package manifest
 
 import (
+	_ "embed"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/atotto/clipboard"
+	"os"
+	"text/template"
 )
 
 type manifestWriter struct {
@@ -30,6 +33,23 @@ func (manifestWriter *manifestWriter) WriteManifest(manifest Manifest) error {
 	}
 
 	fmt.Println("New manifestData in clipboard.")
+
+	return nil
+}
+
+//go:embed secretsHeaderTemplate.txt
+var headerContent string
+
+func (manifestWriter *manifestWriter) WriteManifestToHFile(manifest Manifest) error {
+
+
+	t := template.Must(template.New("test").Parse(headerContent))
+
+	err := t.Execute(os.Stdout, manifest)
+
+	if err != nil {
+		return fmt.Errorf("template error: %s", err)
+	}
 
 	return nil
 }
