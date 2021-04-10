@@ -31,6 +31,7 @@
 #include "src/nbFlash.h"
 #include "src/counters.h"
 #include "src/banner.h"
+#include "src/morseKeyboard.h"
 
 uint8_t selectedPasswordIx = 0;
 
@@ -57,6 +58,19 @@ void setup()
 
     // Debounce.
     DigiKeyboard.delay(100);
+  }
+}
+
+void waitUnlockPassword()
+{
+  while (1)
+  {
+    char buffer[MAX_PWD_LEN];
+    MorseKeyboard::getWord(buffer, MAX_PWD_LEN);
+    if (strcmp(buffer, UNLOCK_PASSWORD) == 0)
+    {
+      return;
+    }
   }
 }
 
@@ -107,9 +121,19 @@ void typeSelectedPassword()
 
 void loop()
 {
-  selectPassword();
+  waitUnlockPassword();
 
-  typeSelectedPassword();
+  while (1)
+  {
+    selectPassword();
+
+    typeSelectedPassword();
+
+    if (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
+    {
+      DigiKeyboard.delay(100);
+    }
+  }
 }
 
 /*

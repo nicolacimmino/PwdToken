@@ -26,6 +26,8 @@
 
 #define PWD_TOKEN_LABEL "TST002"
 
+#define UNLOCK_PASSWORD "TEST"
+
 #define OTP_SECRET_SIZE 16
 
 #define OTP_SECRET 26, 25, 24, 23, 26, 25, 24, 23, 26, 25, 24, 23, 26, 25, 24, 23
