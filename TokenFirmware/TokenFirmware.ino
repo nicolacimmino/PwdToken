@@ -47,8 +47,8 @@ void setup()
 
   DigiKeyboard.sendKeyStroke(0);
 
-  // Press and hold Button A before reset to see the banner.
-  if (digitalRead(PIN_BUTTON_A) == LOW)
+  // Press and hold Button B before reset to see the banner.
+  if (digitalRead(PIN_BUTTON_B) == LOW)
   {
     Banner::print();
     while (digitalRead(PIN_BUTTON_A) == LOW)
@@ -120,7 +120,7 @@ void typeSelectedPassword()
 }
 
 void loop()
-{
+{    
   waitUnlockPassword();
 
   while (1)
