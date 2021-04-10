@@ -33,9 +33,8 @@
 //
 // Hardware Configuration
 #define PIN_BUTTON_A 0 // Button A (N/O).
-#define PIN_BUTTON_B 5 // Button B (N/O).
+#define PIN_BUTTON_B 2 // Button B (N/O).
 #define PIN_LED_A 1    // LED Anode.
-#define PIN_GND 2      // Purely for mechanical stability we ground the common side of button A/B on this pin.
 
 //
 // Magic numbers busters

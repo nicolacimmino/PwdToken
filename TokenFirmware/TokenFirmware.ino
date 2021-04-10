@@ -38,9 +38,6 @@ void setup()
 {
   Counters::incrementCounter(EEPROM_BOOT_COUNT);
 
-  pinMode(PIN_GND, OUTPUT);
-  digitalWrite(PIN_GND, LOW);
-
   pinMode(PIN_LED_A, OUTPUT);
   digitalWrite(PIN_LED_A, LOW);
 
