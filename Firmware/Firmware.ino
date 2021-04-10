@@ -27,7 +27,7 @@
 #include <EEPROM.h>
 #include "src/config.h"
 #include "secrets.h"
-#include "secretGlobals.h"
+#include "src/secretGlobals.h"
 #include "src/nbFlash.h"
 #include "src/counters.h"
 #include "src/banner.h"
