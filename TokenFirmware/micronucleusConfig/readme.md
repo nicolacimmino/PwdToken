@@ -1,17 +1,21 @@
-This re-configured micronucleus does:
+This re-configured micronucleus does exit the bootloader immediately unless P0 pulled down.
 
-* enable the bootloader LED
+To upload the pre-build micronucleus bootloader:
 
-* exit bootloader immediately unless P0 pulled down
+* Connect the digistump with a USBASP programmer
 
-To build modified micronucleus for PWDToken:
+* avrdude -c usbasp -pt85 -U flash:w:micronucleus_2_5_t85_entry_p0_down.hex -F
+
+
+If you want to further tweak the bootloader:
 
 * Clone micronucleus repo
 
-* Copy `t85_pwtoken` to micronucleus\firmware\configuration\
+* Copy `t85_entry_p0_down` to micronucleus\firmware\configuration\
 
-* make CONFIG=t85_pwdtoken
+* make CONFIG=t85_entry_p0_down
 
 * Connect the digistump with a USBASP programmer
 
 * avrdude -c usbasp -pt85 -U flash:w:main.hex -F
+

@@ -279,7 +279,7 @@
 #define ACTIVE_HIGH 1
 #define ACTIVE_LOW  2
 
-#define LED_MODE    ACTIVE_HIGH
+#define LED_MODE    NONE
 
 #define LED_DDR     DDRB
 #define LED_PORT    PORTB
