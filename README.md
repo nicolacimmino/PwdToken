@@ -1,6 +1,6 @@
 # PwdToken
 
-This started as a hardware implementation of a piece of paper with your password on it and, in some respect, it sill if so use with judgment! I toyed at first with the idea mostly of having something to type the WiFi password on a new devices or for guests.
+This started as a hardware implementation of a piece of paper with your password on it and, in some respect, it sill is. So use it with judgment! I toyed at first with the idea mostly of having something to type the WiFi password on a new devices or for guests.
 
 Once the novelty of the first quick implementation wore out, I started to wonder how I could make this at least reasonably secure. In its current incarnation the PwdToken offers the following features:
 
