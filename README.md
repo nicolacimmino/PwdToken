@@ -4,6 +4,8 @@ This started as a hardware implementation of a piece of paper with your password
 
 Once the novelty of the first quick implementation wore out, I started to wonder how I could make this at least reasonably secure. In its current incarnation the PwdToken offers the following features:
 
+* Runs on a Digispark Digistump (or similart ATTiny85 device)
+* Requires only 2 buttons to be soldered to the board
 * Stores up to 4 passwords
 * Emulates a USB keyboard and types the password
 * Easy 2 buttons operation
@@ -39,4 +41,8 @@ There's a meachanism (optional) to keep track of the boots count and amount of t
 * Don't store the full password, use a Horcrux (in a nutshell, make your password something like `fsnfbsdmn23m!fnsfnSomethingIOnlyKnow` and only store the `fsnfbsdmn23m!fnsfn` part to then type the reminder)
 * Don't leave the token unattended and keep track of your tokens so you can immeditely reset the passwords if one is missing
 * Wipe the bootloader and encase the device in epoxy. Keep in mind you will have no way to re-program it, so every password change will mean a new build.
+
+## How do I build one?
+
+See the readme file in the firmware version.
 
