@@ -1,6 +1,6 @@
 /****************************************************************************************************************************************************************
  *  PwdToken.
- *  Morse Keyboard.
+ *  Binary Keyboard.
  *
  *  Copyright (C) 2021 Nicola Cimmino
  *
@@ -18,56 +18,28 @@
  *    along with this program.  If not, see http:*www.gnu.org/licenses/.
  */
 
-#ifndef __MORSE_KEYBOARD_H__
-#define __MORSE_KEYBOARD_H__
+#ifndef __BINARY_KEYBOARD_H__
+#define __BINARY_KEYBOARD_H__
 
 #include "config.h"
 
-namespace MorseKeyboard
+namespace BinaryKeyboard
 {
 
-#define LOOKUP_TABLE_LEN 64
-#define INTER_LETTER_DELAY_MS 1000
-#define WORD_END_MARKER '.' // .-.-.-
-
-char *lookupTable = ".EISH54V.3UF....2ARL.....WP..J.1TNDB6.X..KC..Y..MGZ7.Q..O.8..90.";
-
-uint8_t currentDecoderIndex = 0;
-uint8_t currentDashJump = 64;
-
-void advanceLookup(bool dot)
+void waitForPin()
 {
-    currentDashJump = currentDashJump >> 1;
-    currentDecoderIndex += (dot) ? 1 : currentDashJump;
-
-    if (currentDecoderIndex >= LOOKUP_TABLE_LEN)
-    {
-        currentDecoderIndex = 0;
-    }
-}
-
-void resetLookup()
-{
-    currentDecoderIndex = 0;
-    currentDashJump = 64;
-}
-
-void waitForPassword()
-{
-    char buffer[MAX_PWD_LEN];
-    unsigned long lastUserInputTime = 0;
-    uint8_t bufferIx = 0;
-
-    memset(buffer, 0, MAX_PWD_LEN);
+    uint16_t pinCode = 0;
 
     digitalWrite(PIN_LED_A, HIGH);
+
+    DigiKeyboard.println(UNLOCK_PIN, BIN);
 
     while (1)
     {
         if (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
         {
-            advanceLookup(digitalRead(PIN_BUTTON_B) == LOW);
-            lastUserInputTime = millis();
+            pinCode = (pinCode >> 1) | ((digitalRead(PIN_BUTTON_A) == LOW) ? 0b1000000000000000 : 0);
+            DigiKeyboard.println(pinCode, BIN);
         }
 
         while (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
@@ -77,31 +49,16 @@ void waitForPassword()
 
         DigiKeyboard.delay(100);
 
-        if (lastUserInputTime != 0 && millis() - lastUserInputTime > INTER_LETTER_DELAY_MS)
+        if (pinCode == UNLOCK_PIN)
         {
-            if (strcmp(buffer, UNLOCK_PASSWORD) == 0)
-            {
-                // Unlock.
-                return;
-            }
-
-            buffer[bufferIx++] = lookupTable[currentDecoderIndex];
-
-            if (bufferIx == (MAX_PWD_LEN - 1))
-            {
-                memset(buffer, 0, MAX_PWD_LEN);
-                bufferIx = 0;
-            }
-
-            lastUserInputTime = 0;
-            resetLookup();
+            break;
         }
     }
 
     digitalWrite(PIN_LED_A, LOW);
 }
 
-} // namespace MorseKeyboard
+} // namespace BinaryKeyboard
 
 #endif
 

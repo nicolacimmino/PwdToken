@@ -33,6 +33,7 @@
 #include "src/counters.h"
 #include "src/banner.h"
 #include "src/morseKeyboard.h"
+#include "src/binaryKeyboard.h"
 
 uint8_t selectedPasswordIx = 0;
 
@@ -66,18 +67,10 @@ void waitUnlockPassword()
 {
 #if UNLOCK_MODE == UNLOCK_NONE
   return;
-#endif
-
-  while (1)
-  {
-#if UNLOCK_MODE == UNLOCK_MORSE_KEYBOARD
-    char buffer[MAX_PWD_LEN];
-    MorseKeyboard::getWord(buffer, MAX_PWD_LEN);
-    if (strcmp(buffer, UNLOCK_PASSWORD) == 0)
-    {
-      return;
-    }
-  }
+#elif UNLOCK_MODE == UNLOCK_MORSE_KEYBOARD
+  MorseKeyboard::waitForPassword();
+#elif UNLOCK_MODE == UNLOCK_BINARY_KEYBOARD
+  BinaryKeyboard::waitForPin();
 #endif
 }
 

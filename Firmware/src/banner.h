@@ -25,6 +25,19 @@
 #include "config.h"
 #include "../secrets.h"
 
+#define VERSION_MAJOR "0"
+#define VERSION_MINOR "01"
+
+#if UNLOCK_MODE == UNLOCK_NONE
+#define VARIANT_A "N"
+#elif UNLOCK_MODE == UNLOCK_MORSE_KEYBOARD
+#define VARIANT_A "M"
+#elif UNLOCK_MODE == UNLOCK_BINARY_KEYBOARD
+#define VARIANT_A "B"
+#endif
+
+#define VERSION_ID VERSION_MAJOR "." VERSION_MINOR "-" VARIANT_A
+
 namespace Banner
 {
 
