@@ -1,23 +1,60 @@
 # PwdToken
 
-A hardware implementation of a piece of paper with your password, use with judgment!
+## The hardware
 
-There are (are there?) good reasons sometimes to store a particularly long and complex password in clear form ready to be typed at will. Be careful what you do with this, 
-I take no responsibility.
+You will need a Digispark Digistump or another ATTiny85 board with USB. Additionally you will need two push buttons. Connect them between P0 and P2 and ground. See photo for one of my prototypes.
 
-IF you can exclude the Evil Maid scenario this could be something useful which is only one (tiny) step more safe than a piece of paper under your keyboard. You could make an argument that, being this air-gapped, it's safer (Evil Maid scenario excluded) than using an online password manager while retaining the ease of a clear text file cut/paste (!). 
+## Special bootloader (optional)
 
-Mostly a novelty, I found it useful to store the guest WiFi password so, trusted, guests can just plug this in an log in.
+You can replace the standard "micronucleus" bootloader that comes with the Digistump with a version that doesn't wait in the bootloader by default when started. This makes your PwdToken immediately available when plugging it. Once you uploaded the re-configured bootloader you will need to pull P0 low (press button A before inserting the board in the USB port). To carry out this step you will need an ISP, I tested this with a USBASP. Others shouldn't be that much different but you will need to tweak the actual programming command. 
 
-## Store Passwords
+If you choose to skip this step the only downside will be that once you plug your board in the USB port you will need to wait a few seconds for the bootloader to give up and your program to start.
 
-Make a copy of `secrets_example.h` to a file named `secrets.h`, edit the passwords and the OTP secret. Build and upload. Wipe `secrets.h`
+### Burn the pre-compiled version
 
-## Validate Token
+I have pre-built for you micronucleus V2.5 with the option to enable the bootloader only if P0 is pulled low. If this version of the bootloader is suitable for you and you don't want to further customize it, the easiest way is to burn the pre-built version.
 
-See the TokenValidator folder for instructions on how to validate a token, check its OTP and determine if it has been used and how many times.
+* Clone this repo
+* Get the file `Firmware\micronucleus\micronucleus_2_5_t85_entry_p0_down.hex`
+* Connect your programmer to the digistump
+* Burn the bootloader: `avrdude -c usbasp -pt85 -U flash:w:micronucleus_2_5_t85_entry_p0_down.hex -F`
+
+### Build your version of the bootloader
+
+If you prefer you can build you own version of the bootloader. Checkout the original repo (https://github.com/micronucleus/micronucleus) and follow instructions there. You can then burn the resulting `.hex` file as explained above.
+
+## Store Passwords (without manifest)
+
+If you wish to just set up passwords and don't want to generate a manifest to verify the integrity of the token (and to have proof the token has not been used) follow these simple steps:
+
+* Copy `secrets_example.h` to `secrets.h` (this last is .gitignore:d so you don't risk to push your passwords!)
+* Edit `secrets.h` and set your passwords and unlock password/pin if desired
+* Edit `options.h` and set options as needed 
+* Build and upload
+
+## Store Passwords (with manifest)
+
+If you choose to generate a manifest for the token you will be able at a later time to verify that the token has not been tampered with and you will be able to determine if and how many times it has been booted and passwords retrieved.
+
+To generate a manifest use the command line utility under `CommandLineTool\bin`:
+
+* Run `pwdtoken gen`
+* Choose a label for the token
+* Choose a secret
+* The utility will generate a manifest and store in clipboard
+* Store the manifest somewhere safe (eg a password manager)
+* The utility will also generate a `secrets.h` file
+* Edit `secrets.h` and set your passwords and unlock password/pin if desired (don't change the OTP secret or the label though or you will invalidate the manifest!)
+* Edit `options.h` and set options as needed 
+* Build and upload
+
 
 ## Retrieve a Password
 
-Insert the token in a USB port and wait until the onboard (red) LED starts to flash slowly (one flash and a few seconds pause). This indicates password 1 is armed. Press repeatedly the button as many times as needed to select the desired password (amount of flashes will change to indicate the selected password). Focus on the application where the password is to be typed and keep the button pressed for a couple of seconds.
+* Insert the token in a USB port and wait until the onboard red LED is solid red (or flashing slowly if you choose not to have an unlock PIN/Password)
+* Type your PIN/Password if enabled
+* Once unlocked the onboard red LED will start to flash. The flashes count indicate the selected password
+* Press button A until the desired password is selected
+* Focus on the application/field in which you need to type the password
+* Press and hold A for more than 2 seconds and the password will by typed
 
