@@ -1,4 +1,3 @@
-# PwdToken
 
 ## The hardware
 
