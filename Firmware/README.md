@@ -4,6 +4,9 @@
 
 You will need a Digispark Digistump or another ATTiny85 board with USB. Additionally you will need two push buttons. Connect them between P0 and P2 and ground. See photo for one of my prototypes.
 
+![board](../Docs/board.png)
+
+
 ## Special bootloader (optional)
 
 You can replace the standard "micronucleus" bootloader that comes with the Digistump with a version that doesn't wait in the bootloader by default when started. This makes your PwdToken immediately available when plugging it. Once you uploaded the re-configured bootloader you will need to pull P0 low (press button A before inserting the board in the USB port). To carry out this step you will need an ISP, I tested this with a USBASP. Others shouldn't be that much different but you will need to tweak the actual programming command. 
