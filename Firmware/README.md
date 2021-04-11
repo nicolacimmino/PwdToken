@@ -1,8 +1,10 @@
-# PwdToken
 
 ## The hardware
 
 You will need a Digispark Digistump or another ATTiny85 board with USB. Additionally you will need two push buttons. Connect them between P0 and P2 and ground. See photo for one of my prototypes.
+
+![board](../Docs/board.png)
+
 
 ## Special bootloader (optional)
 
