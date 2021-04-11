@@ -32,14 +32,11 @@ void waitForPin()
 
     digitalWrite(PIN_LED_A, HIGH);
 
-    DigiKeyboard.println(UNLOCK_PIN, BIN);
-
     while (1)
     {
         if (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
         {
-            pinCode = (pinCode >> 1) | ((digitalRead(PIN_BUTTON_A) == LOW) ? 0b1000000000000000 : 0);
-            DigiKeyboard.println(pinCode, BIN);
+            pinCode = (pinCode >> 1) | ((digitalRead(PIN_BUTTON_A) == LOW) ? 0b1000000000000000 : 0);         
         }
 
         while (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
