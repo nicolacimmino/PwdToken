@@ -25,6 +25,7 @@
 
 #include <DigiKeyboard.h>
 #include <EEPROM.h>
+#include "options.h"
 #include "src/config.h"
 #include "secrets.h"
 #include "src/secretGlobals.h"
@@ -63,8 +64,13 @@ void setup()
 
 void waitUnlockPassword()
 {
+#if UNLOCK_MODE == UNLOCK_NONE
+  return;
+#endif
+
   while (1)
   {
+#if UNLOCK_MODE == UNLOCK_MORSE_KEYBOARD
     char buffer[MAX_PWD_LEN];
     MorseKeyboard::getWord(buffer, MAX_PWD_LEN);
     if (strcmp(buffer, UNLOCK_PASSWORD) == 0)
@@ -72,6 +78,7 @@ void waitUnlockPassword()
       return;
     }
   }
+#endif
 }
 
 void selectPassword()
@@ -120,7 +127,7 @@ void typeSelectedPassword()
 }
 
 void loop()
-{    
+{
   waitUnlockPassword();
 
   while (1)

@@ -56,7 +56,16 @@ uint32_t getOTP(uint32_t counter)
 
 void print()
 {
-    DigiKeyboard.println("----- begin -----");
+    DigiKeyboard.println("----------- begin -----------");
+    DigiKeyboard.println(" ");
+
+    DigiKeyboard.println("; PwdToken " VERSION_ID);
+    DigiKeyboard.println("; Built " __DATE__ " " __TIME__);
+
+    // A guide to ensure the current keyboard layout is US.
+    DigiKeyboard.println("; Keyboard Layout US");
+    DigiKeyboard.println("; Hash Backslash: # \\");
+
     DigiKeyboard.println("LBL: " PWD_TOKEN_LABEL);
 
     DigiKeyboard.print("OTP1: ");
@@ -65,11 +74,8 @@ void print()
     DigiKeyboard.print("OTP2: ");
     DigiKeyboard.println(getOTP(Counters::getCounter(EEPROM_RETRIEVAL_COUNT)));
 
-    // A guide to ensure the current keyboard layout is US.
-    DigiKeyboard.println("Layout: US");
-    DigiKeyboard.println("Hash: #");
-    DigiKeyboard.println("Backslash: \\");
-    DigiKeyboard.println("----- end -----");
+    DigiKeyboard.println(" ");
+    DigiKeyboard.println("------------ end ------------");
 }
 
 } // namespace Banner
