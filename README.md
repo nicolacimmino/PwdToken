@@ -15,6 +15,8 @@ Security features:
 * Unlock PIN by binary keypad (optional)
 * Mechanism to validate count of boots and passwords recoveries (tamper/usage detection)
 
+![board](../Docs/board.png)
+
 ## Is it safe?
 
 TLDR: **NO**
