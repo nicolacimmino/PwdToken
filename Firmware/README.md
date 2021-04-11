@@ -53,10 +53,38 @@ To generate a manifest use the command line utility under `CommandLineTool\bin`:
 
 ## Retrieve a Password
 
+**note** the token emulates a standard US layout keyboard. You will need to make sure your keyboard layout matches, especially if your password contains symbols that might be mapped to different keys.
+
 * Insert the token in a USB port and wait until the onboard red LED is solid red (or flashing slowly if you choose not to have an unlock PIN/Password)
 * Type your PIN/Password if enabled
 * Once unlocked the onboard red LED will start to flash. The flashes count indicate the selected password
 * Press button A until the desired password is selected
 * Focus on the application/field in which you need to type the password
 * Press and hold A for more than 2 seconds and the password will by typed
+
+## Getting the token banner
+
+The token benner is a piece of formatted text that contains non-confidential information and can be used to validate the boot counts as well as to make sure your keyboard layout is correct. The banner is always accessible without unlocking the token. To print the banner follow these steps:
+
+* Open a text editor and ensure it's in focus
+* Insert the token while keeping button B pressed
+* Release the button as soon as the banner is starting to appear
+
+A banner looks like this:
+
+````
+----------- begin -----------
+ 
+; PwdToken 0.01-B
+; Built Apr 11 2021 17:04:08
+; Keyboard Layout US
+; Hash Backslash: # \
+LBL: TST002
+OTP1: 3063762718
+OTP2: 1882074943
+ 
+------------ end ------------
+````
+
+You can use the `; Hash Backslash: # \` line to validate that the current keyboard layout is correct. Most of the rest of the information in the banner is data needed by the command line utility to validate the boot and password retrieval counters.
 
