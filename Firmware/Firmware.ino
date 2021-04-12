@@ -48,12 +48,12 @@ void setup()
   pinMode(PIN_BUTTON_B, INPUT_PULLUP);
 
   DigiKeyboard.sendKeyStroke(0);
-
-  DigiKeyboard.delay(500);
-
+  
   // Press and hold Button B before reset to see the banner.
   if (digitalRead(PIN_BUTTON_B) == LOW)
   {
+    DigiKeyboard.delay(500);
+    
     Banner::print();
     while (digitalRead(PIN_BUTTON_A) == LOW)
     {
