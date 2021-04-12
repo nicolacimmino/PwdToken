@@ -1,6 +1,25 @@
 # PwdToken
 
-[**Introduction**](#introduction)
+## Introduction
+
+This started as a hardware implementation of a piece of paper with your password on it and, in some respect, it sill is. So use it with judgment! I toyed at first with the idea mostly of having something to type the WiFi password on new devices or for guests.
+
+Once the novelty of the first quick implementation wore out, I started to wonder how I could make this at least reasonably secure. In its current incarnation the PwdToken offers the following features:
+
+* Runs on a Digispark Digistump (or similart ATTiny85 device)
+* Requires only 2 buttons to be soldered to the board
+* Stores up to 4 passwords
+* Emulates a USB keyboard and types the password
+* Easy 2 buttons operation
+
+Security features:
+* Unlock password by morse keypad (optional)
+* Unlock PIN by binary keypad (optional)
+* Mechanism to validate count of boots and passwords recoveries (tamper/usage detection)
+
+![board](Docs/board.png)
+
+# Contents Table
 
 [**Safety**](#safety)
 
@@ -23,27 +42,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp;[Retrieve a password](#retrieve-a-password)
 
 &nbsp;&nbsp;&nbsp;&nbsp;[Getting the token banner](#getting-the-token-banner)
-
-
-
-## Introduction
-
-This started as a hardware implementation of a piece of paper with your password on it and, in some respect, it sill is. So use it with judgment! I toyed at first with the idea mostly of having something to type the WiFi password on new devices or for guests.
-
-Once the novelty of the first quick implementation wore out, I started to wonder how I could make this at least reasonably secure. In its current incarnation the PwdToken offers the following features:
-
-* Runs on a Digispark Digistump (or similart ATTiny85 device)
-* Requires only 2 buttons to be soldered to the board
-* Stores up to 4 passwords
-* Emulates a USB keyboard and types the password
-* Easy 2 buttons operation
-
-Security features:
-* Unlock password by morse keypad (optional)
-* Unlock PIN by binary keypad (optional)
-* Mechanism to validate count of boots and passwords recoveries (tamper/usage detection)
-
-![board](Docs/board.png)
 
 ## Safety
 
