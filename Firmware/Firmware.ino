@@ -44,18 +44,18 @@ void setup()
   pinMode(PIN_LED_A, OUTPUT);
   digitalWrite(PIN_LED_A, LOW);
 
-  pinMode(PIN_BUTTON_A, INPUT_PULLUP);
   pinMode(PIN_BUTTON_B, INPUT_PULLUP);
+  pinMode(PIN_BUTTON_A, INPUT_PULLUP);
 
   DigiKeyboard.sendKeyStroke(0);
   
   // Press and hold Button B before reset to see the banner.
-  if (digitalRead(PIN_BUTTON_B) == LOW)
+  if (digitalRead(PIN_BUTTON_A) == LOW)
   {
     DigiKeyboard.delay(500);
-    
+
     Banner::print();
-    while (digitalRead(PIN_BUTTON_A) == LOW)
+    while (digitalRead(PIN_BUTTON_B) == LOW)
     {
       DigiKeyboard.delay(100);
     }
@@ -80,7 +80,7 @@ void selectPassword()
 {
   while (1)
   {
-    while (digitalRead(PIN_BUTTON_A) == HIGH)
+    while (digitalRead(PIN_BUTTON_B) == HIGH)
     {
       DigiKeyboard.delay(10);
       digitalWrite(PIN_LED_A, NBFlasher::flashCount(selectedPasswordIx, false));
@@ -91,7 +91,7 @@ void selectPassword()
     DigiKeyboard.delay(100);
 
     unsigned long pressStart = millis();
-    while (digitalRead(PIN_BUTTON_A) == LOW)
+    while (digitalRead(PIN_BUTTON_B) == LOW)
     {
       DigiKeyboard.delay(100);
       if (millis() - pressStart > 2000)
@@ -131,7 +131,7 @@ void loop()
 
     typeSelectedPassword();
 
-    if (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
+    if (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
     {
       DigiKeyboard.delay(100);
     }

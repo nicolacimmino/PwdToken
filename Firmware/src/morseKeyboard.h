@@ -64,13 +64,13 @@ void waitForPassword()
 
     while (1)
     {
-        if (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
+        if (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
         {
-            advanceLookup(digitalRead(PIN_BUTTON_B) == LOW);
+            advanceLookup(digitalRead(PIN_BUTTON_A) == LOW);
             lastUserInputTime = millis();
         }
 
-        while (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
+        while (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
         {
             DigiKeyboard.delay(10);
         }

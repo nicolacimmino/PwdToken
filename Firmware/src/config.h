@@ -32,8 +32,8 @@
 
 //
 // Hardware Configuration
-#define PIN_BUTTON_A 0 // Button A (N/O).
-#define PIN_BUTTON_B 2 // Button B (N/O).
+#define PIN_BUTTON_B 0 // Button A (N/O).
+#define PIN_BUTTON_A 2 // Button B (N/O).
 #define PIN_LED_A 1    // LED Anode.
 
 //

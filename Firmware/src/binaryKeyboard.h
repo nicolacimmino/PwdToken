@@ -34,12 +34,12 @@ void waitForPin()
 
     while (1)
     {
-        if (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
+        if (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
         {
-            pinCode = (pinCode >> 1) | ((digitalRead(PIN_BUTTON_A) == LOW) ? 0b1000000000000000 : 0);         
+            pinCode = (pinCode >> 1) | ((digitalRead(PIN_BUTTON_B) == LOW) ? 0b1000000000000000 : 0);         
         }
 
-        while (digitalRead(PIN_BUTTON_A) == LOW || digitalRead(PIN_BUTTON_B) == LOW)
+        while (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
         {
             DigiKeyboard.delay(10);
         }
