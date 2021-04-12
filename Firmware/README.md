@@ -8,7 +8,7 @@ You will need a Digispark Digistump or another ATTiny85 board with USB. Addition
 
 ## Special bootloader (optional)
 
-You can replace the standard "micronucleus" bootloader that comes with the Digistump with a version that doesn't wait in the bootloader by default when started. This makes your PwdToken immediately available when plugging it. Once you uploaded the re-configured bootloader you will need to pull P0 low (press button A before inserting the board in the USB port). To carry out this step you will need an ISP, I tested this with a USBASP. Others shouldn't be that much different but you will need to tweak the actual programming command. 
+You can replace the standard "micronucleus" bootloader that comes with the Digistump with a version that doesn't wait in the bootloader by default when started. This makes your PwdToken immediately available when plugging it. Once you uploaded the re-configured bootloader you will need to pull P0 low (press button B before inserting the board in the USB port). To carry out this step you will need an ISP, I tested this with a USBASP. Others shouldn't be that much different but you will need to tweak the actual programming command. 
 
 If you choose to skip this step the only downside will be that once you plug your board in the USB port you will need to wait a few seconds for the bootloader to give up and your program to start.
 
@@ -58,7 +58,7 @@ To generate a manifest use the command line utility under `CommandLineTool\bin`:
 * Insert the token in a USB port and wait until the onboard red LED is solid red (or flashing slowly if you choose not to have an unlock PIN/Password)
 * Type your PIN/Password if enabled
 * Once unlocked the onboard red LED will start to flash. The flashes count indicate the selected password
-* Press button A until the desired password is selected
+* Press repeatedly button B until the desired password is selected
 * Focus on the application/field in which you need to type the password
 * Press and hold A for more than 2 seconds and the password will by typed
 
@@ -67,7 +67,7 @@ To generate a manifest use the command line utility under `CommandLineTool\bin`:
 The token benner is a piece of formatted text that contains non-confidential information and can be used to validate the boot counts as well as to make sure your keyboard layout is correct. The banner is always accessible without unlocking the token. To print the banner follow these steps:
 
 * Open a text editor and ensure it's in focus
-* Insert the token while keeping button B pressed
+* Insert the token while keeping button A pressed
 * Release the button as soon as the banner is starting to appear
 
 A banner looks like this:
