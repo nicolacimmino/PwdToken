@@ -1,5 +1,31 @@
 # PwdToken
 
+[**Introduction**](#introduction)
+
+[**Safety**](#safety)
+
+&nbsp;&nbsp;&nbsp;&nbsp;[What makes this reasonably safe](#what-makes-this-reasonably-safe)
+
+&nbsp;&nbsp;&nbsp;&nbsp;[Known vulnerabilities](#known-vulnerabilities)
+
+&nbsp;&nbsp;&nbsp;&nbsp;[What can I do to make it safer?](#what-can-i-do-to-make-it-safer)
+
+[**Build one**](#build-one)
+
+&nbsp;&nbsp;&nbsp;&nbsp;[The hardware](#the-hardware)
+
+&nbsp;&nbsp;&nbsp;&nbsp;[Special bootloader](#special-bootloader-optional)
+
+[**Usage**](#usage)
+
+&nbsp;&nbsp;&nbsp;&nbsp;[Store passwords](#store-passwords)
+
+&nbsp;&nbsp;&nbsp;&nbsp;[Retrieve a password](#retrieve-a-password)
+
+&nbsp;&nbsp;&nbsp;&nbsp;[Getting the token banner](#getting-the-token-banner)
+
+
+
 ## Introduction
 
 This started as a hardware implementation of a piece of paper with your password on it and, in some respect, it sill is. So use it with judgment! I toyed at first with the idea mostly of having something to type the WiFi password on new devices or for guests.
@@ -55,7 +81,7 @@ There's a meachanism (optional) to keep track of the boots count and amount of t
 
 You will need a Digispark Digistump or another ATTiny85 board with USB. Additionally you will need two push buttons. Connect them between P0 and P2 and ground. See photo for one of my prototypes.
 
-![board](../Docs/board.png)
+![board](Docs/board.png)
 
 
 ### Special bootloader (optional)
@@ -64,7 +90,7 @@ You can replace the standard "micronucleus" bootloader that comes with the Digis
 
 If you choose to skip this step the only downside will be that once you plug your board in the USB port you will need to wait a few seconds for the bootloader to give up and your program to start.
 
-### Burn the pre-compiled version
+#### Burn the pre-compiled version
 
 I have pre-built for you micronucleus V2.5 with the option to enable the bootloader only if P0 is pulled low. If this version of the bootloader is suitable for you and you don't want to further customize it, the easiest way is to burn the pre-built version.
 
@@ -73,11 +99,13 @@ I have pre-built for you micronucleus V2.5 with the option to enable the bootloa
 * Connect your programmer to the digistump
 * Burn the bootloader: `avrdude -c usbasp -pt85 -U flash:w:micronucleus_2_5_t85_entry_p0_down.hex -F`
 
-### Build your version of the bootloader
+#### Build your version of the bootloader
 
 If you prefer you can build you own version of the bootloader. Checkout the original repo (https://github.com/micronucleus/micronucleus) and follow instructions there. You can then burn the resulting `.hex` file as explained above.
 
-## Store Passwords (without manifest)
+## Usage
+
+### Store passwords without manifest
 
 If you wish to just set up passwords and don't want to generate a manifest to verify the integrity of the token (and to have proof the token has not been used) follow these simple steps:
 
@@ -86,7 +114,7 @@ If you wish to just set up passwords and don't want to generate a manifest to ve
 * Edit `options.h` and set options as needed 
 * Build and upload
 
-## Store Passwords (with manifest)
+### Store Passwords (with manifest)
 
 If you choose to generate a manifest for the token you will be able at a later time to verify that the token has not been tampered with and you will be able to determine if and how many times it has been booted and passwords retrieved.
 
