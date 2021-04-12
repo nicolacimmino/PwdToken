@@ -19,7 +19,7 @@ Security features:
 
 ![board](Docs/board.png)
 
-# Contents Table
+# Table of contents
 
 [**Safety**](#safety)
 
