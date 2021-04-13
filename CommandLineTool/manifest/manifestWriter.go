@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/atotto/clipboard"
 	"os"
+	"path/filepath"
 	"text/template"
 )
 
@@ -32,7 +33,7 @@ func (manifestWriter *manifestWriter) WriteManifest(manifest Manifest) error {
 		return fmt.Errorf("failed to write manifest to clipboard: %s", err)
 	}
 
-	fmt.Println("New manifestData in clipboard.")
+	fmt.Println("New manifestData in clipboard. Copy it to a safe place.")
 
 	return nil
 }
@@ -48,6 +49,8 @@ type headerData struct {
 
 func (manifestWriter *manifestWriter) WriteManifestToHFile(manifest Manifest) error {
 
+	headerFilePath := filepath.Join("..", "Firmware", "secrets.h")
+
 	t := template.Must(template.New("test").Parse(headerContent))
 
 	headerData := headerData{
@@ -56,11 +59,23 @@ func (manifestWriter *manifestWriter) WriteManifestToHFile(manifest Manifest) er
 		SecretSize: uint8(len(manifest.Secret)),
 	}
 
-	err := t.Execute(os.Stdout, headerData)
+	fileHandler, err := os.Create(headerFilePath)
+
+	if err != nil {
+		return fmt.Errorf("cannot write header file: %s", err)
+	}
+
+	defer func(f *os.File) {
+		_ = f.Close()
+	}(fileHandler)
+
+	err = t.Execute(fileHandler, headerData)
 
 	if err != nil {
 		return fmt.Errorf("template error: %s", err)
 	}
+
+	fmt.Println("done")
 
 	return nil
 }

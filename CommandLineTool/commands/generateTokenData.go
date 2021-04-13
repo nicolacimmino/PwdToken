@@ -33,16 +33,16 @@ func GenerateTokenData() error {
 
 	manifestWriter := manifest.NewManifestWriter()
 
-	err = manifestWriter.WriteManifest(theManifest)
-
-	if err != nil {
-		return fmt.Errorf("cannot write manifest: %s", err)
-	}
-
 	err = manifestWriter.WriteManifestToHFile(theManifest)
 
 	if err != nil {
 		return fmt.Errorf("cannot write header file: %s", err)
+	}
+
+	err = manifestWriter.WriteManifest(theManifest)
+
+	if err != nil {
+		return fmt.Errorf("cannot write manifest: %s", err)
 	}
 
 	return nil
