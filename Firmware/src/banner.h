@@ -43,7 +43,7 @@ namespace Banner
 
 CRC32 crc;
 
-uint32_t getOTP(uint32_t counter)
+uint32_t getOTP(uint32_t cbo, uint32_t cre)
 {
     crc.reset();
 
@@ -54,7 +54,12 @@ uint32_t getOTP(uint32_t counter)
 
     for (uint8_t ix = 0; ix < 4; ix++)
     {
-        crc.update((uint8_t)((counter >> (ix * 8)) & 0xFF));
+        crc.update((uint8_t)((cbo >> (ix * 8)) & 0xFF));
+    }
+
+    for (uint8_t ix = 0; ix < 4; ix++)
+    {
+        crc.update((uint8_t)((cre >> (ix * 8)) & 0xFF));
     }
 
     for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
@@ -81,11 +86,14 @@ void print()
 
     DigiKeyboard.println("LBL: " PWD_TOKEN_LABEL);
 
-    DigiKeyboard.print("OTP1: ");
-    DigiKeyboard.println(getOTP(Counters::getCounter(EEPROM_BOOT_COUNT)));
+    DigiKeyboard.print("CBO: ");
+    DigiKeyboard.println(Counters::getCounter(EEPROM_BOOT_COUNT));
 
-    DigiKeyboard.print("OTP2: ");
-    DigiKeyboard.println(getOTP(Counters::getCounter(EEPROM_RETRIEVAL_COUNT)));
+    DigiKeyboard.print("CRE: ");
+    DigiKeyboard.println(Counters::getCounter(EEPROM_RETRIEVAL_COUNT));
+
+    DigiKeyboard.print("OTP: ");
+    DigiKeyboard.println(getOTP(Counters::getCounter(EEPROM_BOOT_COUNT), Counters::getCounter(EEPROM_RETRIEVAL_COUNT)));
 
     DigiKeyboard.println(" ");
     DigiKeyboard.println("------------ end ------------");

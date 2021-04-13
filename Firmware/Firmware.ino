@@ -39,8 +39,6 @@ uint8_t selectedPasswordIx = 0;
 
 void setup()
 {
-  Counters::incrementCounter(EEPROM_BOOT_COUNT);
-
   pinMode(PIN_LED_A, OUTPUT);
   digitalWrite(PIN_LED_A, LOW);
 
@@ -48,20 +46,18 @@ void setup()
   pinMode(PIN_BUTTON_A, INPUT_PULLUP);
 
   DigiKeyboard.sendKeyStroke(0);
-  
+
   // Press and hold Button B before reset to see the banner.
   if (digitalRead(PIN_BUTTON_A) == LOW)
   {
     DigiKeyboard.delay(500);
 
     Banner::print();
-    while (digitalRead(PIN_BUTTON_B) == LOW)
+
+    while (true)
     {
       DigiKeyboard.delay(100);
     }
-
-    // Debounce.
-    DigiKeyboard.delay(100);
   }
 }
 
@@ -123,6 +119,8 @@ void typeSelectedPassword()
 
 void loop()
 {
+  Counters::incrementCounter(EEPROM_BOOT_COUNT);
+
   waitUnlockPassword();
 
   while (1)
