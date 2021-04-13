@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func GenerateTokenData() error {
@@ -15,18 +16,19 @@ func GenerateTokenData() error {
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Label: ")
-
 	label, err := reader.ReadString('\n')
 
 	if err != nil {
 		return fmt.Errorf("cannot read label: %s", err)
 	}
 
+	label = strings.ReplaceAll(label, "\n", "")
+
 	theManifest := manifest.Manifest{
-		Label:    label,
-		Cbo: 0,
-		Cre: 0,
-		Secret:   theSecret,
+		Label:  label,
+		Cbo:    0,
+		Cre:    0,
+		Secret: theSecret,
 	}
 
 	manifestWriter := manifest.NewManifestWriter()

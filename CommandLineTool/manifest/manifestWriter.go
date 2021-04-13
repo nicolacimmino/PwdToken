@@ -40,12 +40,23 @@ func (manifestWriter *manifestWriter) WriteManifest(manifest Manifest) error {
 //go:embed secretsHeaderTemplate.txt
 var headerContent string
 
-func (manifestWriter *manifestWriter) WriteManifestToHFile(manifest Manifest) error {
+type headerData struct {
+	Label      string
+	Secret     string
+	SecretSize uint8
+}
 
+func (manifestWriter *manifestWriter) WriteManifestToHFile(manifest Manifest) error {
 
 	t := template.Must(template.New("test").Parse(headerContent))
 
-	err := t.Execute(os.Stdout, manifest)
+	headerData := headerData{
+		Label:      manifest.Label,
+		Secret:     manifest.getSecretCSV(),
+		SecretSize: uint8(len(manifest.Secret)),
+	}
+
+	err := t.Execute(os.Stdout, headerData)
 
 	if err != nil {
 		return fmt.Errorf("template error: %s", err)

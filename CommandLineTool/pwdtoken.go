@@ -1,8 +1,6 @@
 /****************************************************************************************************************************************************************
  *  PwdToken.
- *
  *  Command line utility for the pwdToken.
- *
  *
  *  Copyright (C) 2021 Nicola Cimmino
  *
@@ -46,9 +44,17 @@ func main() {
 
 	switch os.Args[1] {
 	case "ver":
-		err = ValidateToken()
+		err = VerifyToken()
+
+		if err != nil {
+			err = fmt.Errorf("failed to verify token: %s", err)
+		}
 	case "gen":
 		err = GenerateTokenData()
+
+		if err != nil {
+			err = fmt.Errorf("failed to generate token data: %s", err)
+		}
 	default:
 		printUsage()
 	}

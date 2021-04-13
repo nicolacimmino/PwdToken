@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-func ValidateToken() error {
+func VerifyToken() error {
 	manifestReader := manifest.NewManifestReader()
 	theManifest, err := manifestReader.ReadManifest()
 
@@ -27,7 +27,11 @@ func ValidateToken() error {
 	otpGenerator := otp.NewOtpGenerator(theBanner, theManifest)
 
 	if !otpGenerator.ValidateOtp(theBanner.Otp, theBanner.Cre, theBanner.Cbo) {
-		return fmt.Errorf("failed to validate otp: token might have been tampered with")
+		return fmt.Errorf(" token might have been tampered with")
+	}
+
+	if theManifest.Cre > theBanner.Cre || theManifest.Cbo > theBanner.Cbo {
+		return fmt.Errorf("counters moved backwards! token might have been tampered with")
 	}
 
 	if theManifest.Cre != theBanner.Cre || theManifest.Cbo != theBanner.Cbo {
