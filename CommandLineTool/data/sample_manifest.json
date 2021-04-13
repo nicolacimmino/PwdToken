@@ -1,23 +1,6 @@
 {
-  "label": "TST002",
-  "counter1": 0,
-  "counter2": 0,
-  "secret": [
-    26,
-    25,
-    24,
-    23,
-    26,
-    25,
-    24,
-    23,
-    26,
-    25,
-    24,
-    23,
-    26,
-    25,
-    24,
-    23
-  ]
+  "Label": "TST002",
+  "Cbo": 4278190083,
+  "Cre": 0,
+  "Secret": "GhkYFxoZGBcaGRgXGhkYFw=="
 }

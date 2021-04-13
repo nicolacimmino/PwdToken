@@ -6,7 +6,7 @@ import (
 )
 
 func ValidateBanner(banner Banner, manifest manifest.Manifest) error {
-	if manifest.Label != banner.Label {
+	if manifest.Label != banner.Lbl {
 		return fmt.Errorf("invalid banner: label mismatch")
 	}
 

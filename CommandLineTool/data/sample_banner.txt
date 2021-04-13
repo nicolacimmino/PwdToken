@@ -1,8 +1,12 @@
------ begin -----
-LBL: TST002
-OTP1: 2075966933
-OTP2: 3848499211
-Layout: US
-Hash: #
-Backslash: \
------ end -----
+----------- begin -----------
+
+ ; PwdToken 0.01-B
+ ; Built Apr 13 2021 07:48:26
+ ; Keyboard Layout US
+ ; Hash Backslash: £ #
+ LBL: TST002
+ CBO: 4278190083
+ CRE: 0
+ OTP: 3928765165
+
+------------ end ------------

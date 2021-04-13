@@ -3,7 +3,6 @@ package otp
 import (
 	"../banner"
 	"../manifest"
-	"fmt"
 )
 
 type otpGenerator struct {
@@ -20,52 +19,15 @@ func NewOtpGenerator(banner banner.Banner, manifest manifest.Manifest) *otpGener
 	return &otpGenerator
 }
 
-func (otpGenerator *otpGenerator) GetNewCounters() (uint32, uint32, error) {
+func (otpGenerator *otpGenerator) ValidateOtp(otp uint32, cre uint32, cbo uint32) bool {
 
-	newCounter1, err := otpGenerator.findNewOTP1Counter()
+	expectedOtp := calculateOTP(cre, cbo, otpGenerator.manifest.Secret)
 
-	if err != nil {
-		return 0, 0, err
+	if expectedOtp != otp {
+		return false
 	}
 
-	newCounter2, err := otpGenerator.findNewOTP2Counter()
-
-	if err != nil {
-		return 0, 0, err
-	}
-
-	return newCounter1, newCounter2, nil
-}
-
-func (otpGenerator *otpGenerator) findNewOTP1Counter() (uint32, error) {
-	return otpGenerator.findNewOTPCounter("OTP1", otpGenerator.manifest.Counter1, otpGenerator.banner.Otp1)
-}
-
-func (otpGenerator *otpGenerator) findNewOTP2Counter() (uint32, error) {
-	return otpGenerator.findNewOTPCounter("OTP2", otpGenerator.manifest.Counter2, otpGenerator.banner.Otp2)
-}
-
-func (otpGenerator *otpGenerator) findNewOTPCounter(otpName string, expectedCounter uint32, expectedOtp uint32) (uint32, error) {
-	var offset uint32 = 0
-	var otp uint32 = 0
-	for {
-		otp = calculateOTP(expectedCounter+offset, otpGenerator.manifest.Secret)
-		if otp == expectedOtp {
-			break
-		}
-		offset++
-		if offset > 1000 {
-			return 0, fmt.Errorf("cannot match counter, offset %d", offset)
-		}
-	}
-
-	if offset > 0 {
-		fmt.Printf("%s advanced to %d (+%d)\n", otpName, expectedCounter+offset, offset)
-	} else {
-		fmt.Printf("%s match.\n", otpName)
-	}
-
-	return otpGenerator.manifest.Counter1 + offset, nil
+	return true
 }
 
 /*
@@ -75,13 +37,19 @@ func (otpGenerator *otpGenerator) findNewOTPCounter(otpName string, expectedCoun
  * while the Arduino one, out of necessity, is based on a table
  * with 16 values.
  */
-func calculateOTP(counter uint32, secret []byte) uint32 {
+func calculateOTP(cre uint32, cbo uint32, secret []byte) uint32 {
 
 	data := secret
 
 	ix := 0
 	for ix < 4 {
-		data = append(data, byte((counter>>(ix*8))&0xFF))
+		data = append(data, byte((cbo>>(ix*8))&0xFF))
+		ix++
+	}
+
+	ix = 0
+	for ix < 4 {
+		data = append(data, byte((cre>>(ix*8))&0xFF))
 		ix++
 	}
 

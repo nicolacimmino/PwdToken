@@ -46,9 +46,9 @@ func main() {
 
 	switch os.Args[1] {
 	case "ver":
-		err = ValidatePad()
+		err = ValidateToken()
 	case "gen":
-		err = GeneratePadData()
+		err = GenerateTokenData()
 	default:
 		printUsage()
 	}

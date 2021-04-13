@@ -13,9 +13,6 @@ type bannerReader struct {
 	banner Banner
 }
 
-/**
- * Constructor.
- */
 func NewBannerReader() *bannerReader {
 	bannerReader := bannerReader{banner: Banner{}}
 
@@ -38,12 +35,14 @@ func (bannerReader *bannerReader) ReadBanner() Banner {
 
 		if err == nil {
 			switch label {
-			case "OTP1":
-				bannerReader.banner.Otp1 = numericValue
-			case "OTP2":
-				bannerReader.banner.Otp2 = numericValue
+			case "OTP":
+				bannerReader.banner.Otp = numericValue
 			case "LBL":
-				bannerReader.banner.Label = value
+				bannerReader.banner.Lbl = value
+			case "CRE":
+				bannerReader.banner.Cre = numericValue
+			case "CBO":
+				bannerReader.banner.Cbo = numericValue
 			}
 		}
 	}

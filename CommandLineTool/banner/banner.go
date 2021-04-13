@@ -1,7 +1,8 @@
 package banner
 
 type Banner struct {
-	Otp1  uint32
-	Otp2  uint32
-	Label string
+	Otp uint32
+	Lbl string
+	Cbo uint32
+	Cre uint32
 }
