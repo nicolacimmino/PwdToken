@@ -21,7 +21,7 @@ func NewBannerReader() *bannerReader {
 
 func (bannerReader *bannerReader) ReadBanner() Banner {
 
-	fmt.Println("Insert token and hold key...")
+	fmt.Println("Insert token holding Button A...")
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
