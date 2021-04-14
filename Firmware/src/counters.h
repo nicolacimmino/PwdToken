@@ -24,18 +24,18 @@
 namespace Counters
 {
 
-uint32_t getCounter(uint8_t baseAddress)
-{
-    uint32_t counter;
-    EEPROM.get(baseAddress, counter);
+    uint32_t getCounter(uint8_t baseAddress)
+    {
+        uint32_t counter;
+        EEPROM.get(baseAddress, counter);
 
-    return counter;
-}
+        return counter;
+    }
 
-void incrementCounter(uint8_t baseAddress)
-{
-    EEPROM.put(baseAddress, getCounter(baseAddress) + 1);
-}
+    void incrementCounter(uint8_t baseAddress)
+    {
+        EEPROM.put(baseAddress, (uint32_t)(getCounter(baseAddress) + 1));
+    }
 
 } // namespace Counters
 
