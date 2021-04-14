@@ -98,7 +98,9 @@ If you prefer you can build you own version of the bootloader. Checkout the orig
 
 ## Usage
 
-### Store passwords without manifest
+### Store passwords 
+
+**Without manifest**
 
 If you wish to just set up passwords and don't want to generate a manifest to verify the integrity of the token (and to have proof the token has not been used) follow these simple steps:
 
@@ -107,7 +109,8 @@ If you wish to just set up passwords and don't want to generate a manifest to ve
 * Edit `options.h` and set options as needed 
 * Build and upload
 
-### Store Passwords (with manifest)
+
+**With manifest**
 
 If you choose to generate a manifest for the token you will be able at a later time to verify that the token has not been tampered with and you will be able to determine if and how many times it has been booted and passwords retrieved.
 
