@@ -23,25 +23,20 @@ Security features:
 
 [**Safety**](#safety)
 
-&nbsp;&nbsp;&nbsp;&nbsp;[What makes this reasonably safe](#what-makes-this-reasonably-safe)
-
-&nbsp;&nbsp;&nbsp;&nbsp;[Known vulnerabilities](#known-vulnerabilities)
-
-&nbsp;&nbsp;&nbsp;&nbsp;[What can I do to make it safer?](#what-can-i-do-to-make-it-safer)
+&nbsp;&nbsp;&nbsp;&nbsp;[What makes this reasonably safe](#what-makes-this-reasonably-safe)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[Known vulnerabilities](#known-vulnerabilities)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[What can I do to make it safer?](#what-can-i-do-to-make-it-safer)<br>
 
 [**Build one**](#build-one)
 
-&nbsp;&nbsp;&nbsp;&nbsp;[The hardware](#the-hardware)
-
-&nbsp;&nbsp;&nbsp;&nbsp;[Special bootloader](#special-bootloader-optional)
+&nbsp;&nbsp;&nbsp;&nbsp;[The hardware](#the-hardware)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[Special bootloader](#special-bootloader-optional)<br>
 
 [**Usage**](#usage)
 
-&nbsp;&nbsp;&nbsp;&nbsp;[Store passwords](#store-passwords)
-
-&nbsp;&nbsp;&nbsp;&nbsp;[Retrieve a password](#retrieve-a-password)
-
-&nbsp;&nbsp;&nbsp;&nbsp;[Getting the token banner](#getting-the-token-banner)
+&nbsp;&nbsp;&nbsp;&nbsp;[Store passwords](#store-passwords)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[Retrieve a password](#retrieve-a-password)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[Getting the token banner](#getting-the-token-banner)<br>
 
 ## Safety
 
