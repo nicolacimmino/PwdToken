@@ -150,15 +150,16 @@ A banner looks like this:
 
 ````
 ----------- begin -----------
- 
+
 ; PwdToken 0.01-B
-; Built Apr 11 2021 17:04:08
+; Built Apr 14 2021 07:27:29
 ; Keyboard Layout US
-; Hash Backslash: # \
+; Hash Backslash: £ #
 LBL: TST002
-OTP1: 3063762718
-OTP2: 1882074943
- 
+CBO: 3
+CRE: 0
+OTP: 3158792869
+
 ------------ end ------------
 ````
 
