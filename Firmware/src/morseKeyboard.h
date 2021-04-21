@@ -91,6 +91,8 @@ void waitForPassword()
             {
                 memset(buffer, 0, MAX_PWD_LEN);
                 bufferIx = 0;
+
+                Counters::incrementCounter(EEPROM_FAILED_LOGIN_COUNT);
             }
 
             lastUserInputTime = 0;

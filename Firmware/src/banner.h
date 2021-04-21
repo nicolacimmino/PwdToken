@@ -41,63 +41,66 @@
 namespace Banner
 {
 
-CRC32 crc;
+    CRC32 crc;
 
-uint32_t getOTP(uint32_t cbo, uint32_t cre)
-{
-    crc.reset();
-
-    for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
+    uint32_t getOTP(uint32_t cbo, uint32_t cre)
     {
-        crc.update(otpSecret[ix]);
+        crc.reset();
+
+        for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
+        {
+            crc.update(otpSecret[ix]);
+        }
+
+        for (uint8_t ix = 0; ix < 4; ix++)
+        {
+            crc.update((uint8_t)((cbo >> (ix * 8)) & 0xFF));
+        }
+
+        for (uint8_t ix = 0; ix < 4; ix++)
+        {
+            crc.update((uint8_t)((cre >> (ix * 8)) & 0xFF));
+        }
+
+        for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
+        {
+            crc.update(otpSecret[ix]);
+        }
+
+        uint32_t otp = crc.finalize();
+
+        return otp;
     }
 
-    for (uint8_t ix = 0; ix < 4; ix++)
+    void print()
     {
-        crc.update((uint8_t)((cbo >> (ix * 8)) & 0xFF));
+        DigiKeyboard.println("----------- begin -----------");
+        DigiKeyboard.println(" ");
+
+        DigiKeyboard.println("; PwdToken " VERSION_ID);
+        DigiKeyboard.println("; Built " __DATE__ " " __TIME__);
+
+        // A guide to ensure the current keyboard layout is US.
+        DigiKeyboard.println("; Keyboard Layout US");
+        DigiKeyboard.println("; Hash Backslash: # \\");
+
+        DigiKeyboard.println("LBL: " PWD_TOKEN_LABEL);
+
+        DigiKeyboard.print("CBO: ");
+        DigiKeyboard.println(Counters::getCounter(EEPROM_BOOT_COUNT));
+
+        DigiKeyboard.print("CRE: ");
+        DigiKeyboard.println(Counters::getCounter(EEPROM_RETRIEVAL_COUNT));
+
+        DigiKeyboard.print("CFL: ");
+        DigiKeyboard.println(Counters::getCounter(EEPROM_FAILED_LOGIN_COUNT));
+
+        DigiKeyboard.print("OTP: ");
+        DigiKeyboard.println(getOTP(Counters::getCounter(EEPROM_BOOT_COUNT), Counters::getCounter(EEPROM_RETRIEVAL_COUNT)));
+
+        DigiKeyboard.println(" ");
+        DigiKeyboard.println("------------ end ------------");
     }
-
-    for (uint8_t ix = 0; ix < 4; ix++)
-    {
-        crc.update((uint8_t)((cre >> (ix * 8)) & 0xFF));
-    }
-
-    for (uint8_t ix = 0; ix < OTP_SECRET_SIZE; ix++)
-    {
-        crc.update(otpSecret[ix]);
-    }
-
-    uint32_t otp = crc.finalize();
-
-    return otp;
-}
-
-void print()
-{
-    DigiKeyboard.println("----------- begin -----------");
-    DigiKeyboard.println(" ");
-
-    DigiKeyboard.println("; PwdToken " VERSION_ID);
-    DigiKeyboard.println("; Built " __DATE__ " " __TIME__);
-
-    // A guide to ensure the current keyboard layout is US.
-    DigiKeyboard.println("; Keyboard Layout US");
-    DigiKeyboard.println("; Hash Backslash: # \\");
-
-    DigiKeyboard.println("LBL: " PWD_TOKEN_LABEL);
-
-    DigiKeyboard.print("CBO: ");
-    DigiKeyboard.println(Counters::getCounter(EEPROM_BOOT_COUNT));
-
-    DigiKeyboard.print("CRE: ");
-    DigiKeyboard.println(Counters::getCounter(EEPROM_RETRIEVAL_COUNT));
-
-    DigiKeyboard.print("OTP: ");
-    DigiKeyboard.println(getOTP(Counters::getCounter(EEPROM_BOOT_COUNT), Counters::getCounter(EEPROM_RETRIEVAL_COUNT)));
-
-    DigiKeyboard.println(" ");
-    DigiKeyboard.println("------------ end ------------");
-}
 
 } // namespace Banner
 

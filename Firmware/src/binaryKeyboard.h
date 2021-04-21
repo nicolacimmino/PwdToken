@@ -26,34 +26,43 @@
 namespace BinaryKeyboard
 {
 
-void waitForPin()
-{
-    uint16_t pinCode = 0;
-
-    digitalWrite(PIN_LED_A, HIGH);
-
-    while (1)
+    void waitForPin()
     {
-        if (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
+        uint16_t pinCode = 0;
+        uint16_t digitIndex = 1;
+
+        digitalWrite(PIN_LED_A, HIGH);
+
+        while (1)
         {
-            pinCode = (pinCode >> 1) | ((digitalRead(PIN_BUTTON_B) == LOW) ? 0b1000000000000000 : 0);         
+            if (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
+            {
+                pinCode = (pinCode >> 1) | ((digitalRead(PIN_BUTTON_B) == LOW) ? 0b1000000000000000 : 0);
+                digitIndex = digitIndex << 1;
+
+                if (digitIndex == 0)
+                {
+                    Counters::incrementCounter(EEPROM_FAILED_LOGIN_COUNT);
+                    digitIndex = 1;
+                    pinCode = 0;
+                }
+            }
+
+            while (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
+            {
+                DigiKeyboard.delay(10);
+            }
+
+            DigiKeyboard.delay(100);
+
+            if (pinCode == UNLOCK_PIN)
+            {
+                break;
+            }
         }
 
-        while (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
-        {
-            DigiKeyboard.delay(10);
-        }
-
-        DigiKeyboard.delay(100);
-
-        if (pinCode == UNLOCK_PIN)
-        {
-            break;
-        }
+        digitalWrite(PIN_LED_A, LOW);
     }
-
-    digitalWrite(PIN_LED_A, LOW);
-}
 
 } // namespace BinaryKeyboard
 
