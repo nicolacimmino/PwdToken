@@ -22,6 +22,7 @@
 #define __MORSE_KEYBOARD_H__
 
 #include "config.h"
+#include "lock.h"
 
 namespace MorseKeyboard
 {
@@ -30,78 +31,85 @@ namespace MorseKeyboard
 #define INTER_LETTER_DELAY_MS 1000
 #define WORD_END_MARKER '.' // .-.-.-
 
-char *lookupTable = ".EISH54V.3UF....2ARL.....WP..J.1TNDB6.X..KC..Y..MGZ7.Q..O.8..90.";
+    char *lookupTable = ".EISH54V.3UF....2ARL.....WP..J.1TNDB6.X..KC..Y..MGZ7.Q..O.8..90.";
 
-uint8_t currentDecoderIndex = 0;
-uint8_t currentDashJump = 64;
+    uint8_t lookupIx = 0;
+    uint8_t dashOffset = 64;
 
-void advanceLookup(bool dot)
-{
-    currentDashJump = currentDashJump >> 1;
-    currentDecoderIndex += (dot) ? 1 : currentDashJump;
-
-    if (currentDecoderIndex >= LOOKUP_TABLE_LEN)
+    void advanceLookup(bool dot)
     {
-        currentDecoderIndex = 0;
-    }
-}
+        dashOffset = dashOffset >> 1;
+        lookupIx += (dot) ? 1 : dashOffset;
 
-void resetLookup()
-{
-    currentDecoderIndex = 0;
-    currentDashJump = 64;
-}
-
-void waitForPassword()
-{
-    char buffer[MAX_PWD_LEN];
-    unsigned long lastUserInputTime = 0;
-    uint8_t bufferIx = 0;
-
-    memset(buffer, 0, MAX_PWD_LEN);
-
-    digitalWrite(PIN_LED_A, HIGH);
-
-    while (1)
-    {
-        if (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
+        if (lookupIx >= LOOKUP_TABLE_LEN)
         {
-            advanceLookup(digitalRead(PIN_BUTTON_A) == LOW);
-            lastUserInputTime = millis();
-        }
-
-        while (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
-        {
-            DigiKeyboard.delay(10);
-        }
-
-        DigiKeyboard.delay(100);
-
-        if (lastUserInputTime != 0 && millis() - lastUserInputTime > INTER_LETTER_DELAY_MS)
-        {
-            if (strcmp(buffer, UNLOCK_PASSWORD) == 0)
-            {
-                // Unlock.
-                return;
-            }
-
-            buffer[bufferIx++] = lookupTable[currentDecoderIndex];
-
-            if (bufferIx == (MAX_PWD_LEN - 1))
-            {
-                memset(buffer, 0, MAX_PWD_LEN);
-                bufferIx = 0;
-
-                Counters::incrementCounter(EEPROM_FAILED_LOGIN_COUNT);
-            }
-
-            lastUserInputTime = 0;
-            resetLookup();
+            lookupIx = 0;
         }
     }
 
-    digitalWrite(PIN_LED_A, LOW);
-}
+    void resetLookup()
+    {
+        lookupIx = 0;
+        dashOffset = 64;
+    }
+
+    void waitForPassword()
+    {
+        char buffer[MAX_PWD_LEN];
+        unsigned long lastUserInputTime = 0;
+        uint8_t bufferIx = 0;
+
+        memset(buffer, 0, MAX_PWD_LEN);
+
+        digitalWrite(PIN_LED_A, HIGH);
+
+        while (1)
+        {
+            if (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
+            {
+                advanceLookup(digitalRead(PIN_BUTTON_A) == LOW);
+                lastUserInputTime = millis();
+            }
+
+            while (digitalRead(PIN_BUTTON_B) == LOW || digitalRead(PIN_BUTTON_A) == LOW)
+            {
+                DigiKeyboard.delay(10);
+            }
+
+            DigiKeyboard.delay(100);
+
+            if (lastUserInputTime != 0 && millis() - lastUserInputTime > INTER_LETTER_DELAY_MS)
+            {
+                if (lookupTable[lookupIx] == WORD_END_MARKER)
+                {
+                    if (strcmp(buffer, UNLOCK_PASSWORD) == 0)
+                    {
+                        // Unlock.
+                        break;
+                    }
+
+                    Lock::onFailedLogin();
+
+                    memset(buffer, 0, MAX_PWD_LEN);
+                    bufferIx = 0;
+                }
+
+                buffer[bufferIx++] = lookupTable[lookupIx];
+
+                if (bufferIx == (MAX_PWD_LEN - 1))
+                {
+                    bufferIx = 0;
+                }
+
+                lastUserInputTime = 0;
+                resetLookup();
+            }
+        }
+
+        Lock::onSuccessfulLogin();
+
+        digitalWrite(PIN_LED_A, LOW);
+    }
 
 } // namespace MorseKeyboard
 

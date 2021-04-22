@@ -32,8 +32,11 @@
 #include "src/nbFlash.h"
 #include "src/counters.h"
 #include "src/banner.h"
+#if UNLOCK_MODE == UNLOCK_MORSE_KEYBOARD
 #include "src/morseKeyboard.h"
+#elif UNLOCK_MODE == UNLOCK_BINARY_KEYBOARD
 #include "src/binaryKeyboard.h"
+#endif
 
 uint8_t selectedPasswordIx = 0;
 

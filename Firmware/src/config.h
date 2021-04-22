@@ -29,7 +29,7 @@
 // EEPROM Memory Map
 #define EEPROM_BOOT_COUNT 0                                    //  Start offset of the boot counter (uint32_t).
 #define EEPROM_RETRIEVAL_COUNT (EEPROM_BOOT_COUNT + 4)         //  Start offset of the retrieval counter (uint32_t).
-#define EEPROM_FAILED_LOGIN_COUNT (EEPROM_RETRIEVAL_COUNT + 4) //  Start offset of the failed logins count counter (uint8_t).
+#define EEPROM_FAILED_LOGIN_COUNT (EEPROM_RETRIEVAL_COUNT + 4) //  Start offset of the failed logins count counter (uint32_t).
 
 //
 // Hardware Configuration

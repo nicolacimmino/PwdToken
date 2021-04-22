@@ -32,9 +32,18 @@ namespace Counters
         return counter;
     }
 
-    void incrementCounter(uint8_t baseAddress)
+    void setCounter(uint8_t baseAddress, uint32_t value)
     {
-        EEPROM.put(baseAddress, (uint32_t)(getCounter(baseAddress) + 1));
+        EEPROM.put(baseAddress, value);
+    }
+
+    uint32_t incrementCounter(uint8_t baseAddress)
+    {
+        uint32_t value = getCounter(baseAddress) + 1;
+
+        setCounter(baseAddress, value);
+
+        return value;
     }
 
 } // namespace Counters

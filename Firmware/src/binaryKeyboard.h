@@ -22,6 +22,7 @@
 #define __BINARY_KEYBOARD_H__
 
 #include "config.h"
+#include "lock.h"
 
 namespace BinaryKeyboard
 {
@@ -42,7 +43,7 @@ namespace BinaryKeyboard
 
                 if (digitIndex == 0)
                 {
-                    Counters::incrementCounter(EEPROM_FAILED_LOGIN_COUNT);
+                    Lock::onFailedLogin();
                     digitIndex = 1;
                     pinCode = 0;
                 }
@@ -60,6 +61,8 @@ namespace BinaryKeyboard
                 break;
             }
         }
+
+        Lock::onSuccessfulLogin();
 
         digitalWrite(PIN_LED_A, LOW);
     }
