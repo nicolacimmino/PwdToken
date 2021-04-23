@@ -122,6 +122,7 @@ void typeSelectedPassword()
 
 void loop()
 {
+
   Counters::incrementCounter(EEPROM_BOOT_COUNT);
 
   waitUnlockPassword();

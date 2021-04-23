@@ -21,15 +21,37 @@
 #ifndef __LOCK_H__
 #define __LOCK_H__
 
+#define BOOTLOADER_ADDRESS 0x1A00
+
+#include <avr/boot.h>
 #include "counters.h"
 
 namespace Lock
 {
+    void selfDestruct()
+    {
+        uint16_t ptr = BOOTLOADER_ADDRESS;
+        while (ptr)
+        {
+            ptr -= SPM_PAGESIZE;
+            boot_page_erase(ptr);
+        }
+
+        // Write the reset vector.
+        // This is a rjmp to the start of the bootloader.
+        // It can be calculated as 0xC000 + (BOOTLOADER_ADDRESS / 2) - 1
+        // See your bootloader Makefile.inc if you need to change this.
+        // For the standard PWdToken t85_sec_boot the bootaloader address is 0x1A00
+        // and the rjmp opcode is 0xCCFF.
+        boot_page_fill(0, 0xCCFF);
+        boot_page_write(0);
+    }
+
     void onFailedLogin()
     {
         if (Counters::incrementCounter(EEPROM_FAILED_LOGIN_COUNT) > UNLOCK_MAX_ATTEMPTS)
         {
-            // wipe app
+            selfDestruct();
         }
     }
 

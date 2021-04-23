@@ -34,7 +34,7 @@
 #define UNLOCK_MORSE_KEYBOARD 1
 #define UNLOCK_BINARY_KEYBOARD 2
 
-#define UNLOCK_MODE UNLOCK_BINARY_KEYBOARD
+#define UNLOCK_MODE UNLOCK_MORSE_KEYBOARD
 
 /*
  ****************************************************************************/
