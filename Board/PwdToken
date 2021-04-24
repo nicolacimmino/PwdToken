@@ -1,0 +1,13 @@
+Reference, Value, Footprint, Datasheet, Field4
+"U1","ATtiny85-20SU","Package_SO:SOIJ-8_5.3x5.3mm_P1.27mm","http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf"
+"R2","68R","Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder",""," "
+"R3","68R","Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder",""," "
+"R4","1K5","Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder",""," "
+"D3","3V6","Diode_SMD:D_0402_1005Metric_Pad0.77x0.64mm_HandSolder","~"
+"D2","3V6","Diode_SMD:D_0402_1005Metric_Pad0.77x0.64mm_HandSolder","~"
+"J1","USB_A_PCB","PwdToken:usb-PCB",""
+"D1","LED","LED_SMD:LED_0201_0603Metric_Pad0.64x0.40mm_HandSolder","~"
+"R1","470","Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder",""," "
+"SW1","A","Button_Switch_THT:SW_Tactile_Straight_KSA0Axx1LFTR","~"
+"SW2","B","Button_Switch_THT:SW_Tactile_Straight_KSA0Axx1LFTR","~"
+"J2","JST_6_PIN_VERTICAL","Connectors:1X06","","CONN-08249"

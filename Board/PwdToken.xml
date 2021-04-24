@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:\Users\nicola\git\PwdToken\Board\PwdToken\PwdToken.sch</source>
+    <date>24/04/2021 15:01:46</date>
+    <tool>Eeschema (5.1.9)-1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>PwdToken.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="U1">
+      <value>ATtiny85-20SU</value>
+      <footprint>Package_SO:SOIJ-8_5.3x5.3mm_P1.27mm</footprint>
+      <datasheet>http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf</datasheet>
+      <libsource lib="MCU_Microchip_ATtiny" part="ATtiny85-20SU" description="20MHz, 8kB Flash, 512B SRAM, 512B EEPROM, debugWIRE, SOIJ-8"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>608558E4</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>68R</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder</footprint>
+      <fields>
+        <field name="Field4"> </field>
+      </fields>
+      <libsource lib="SparkFun-Resistors" part="RESISTOR0402" description="Generic Resistor Package"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>60856623</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>68R</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder</footprint>
+      <fields>
+        <field name="Field4"> </field>
+      </fields>
+      <libsource lib="SparkFun-Resistors" part="RESISTOR0402" description="Generic Resistor Package"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>60858241</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>1K5</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder</footprint>
+      <fields>
+        <field name="Field4"> </field>
+      </fields>
+      <libsource lib="SparkFun-Resistors" part="RESISTOR0402" description="Generic Resistor Package"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6085D8E8</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>3V6</value>
+      <footprint>Diode_SMD:D_0402_1005Metric_Pad0.77x0.64mm_HandSolder</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Zener" description="Zener diode"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6085FA6B</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>3V6</value>
+      <footprint>Diode_SMD:D_0402_1005Metric_Pad0.77x0.64mm_HandSolder</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Zener" description="Zener diode"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6086082E</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>USB_A_PCB</value>
+      <footprint>PwdToken:usb-PCB</footprint>
+      <libsource lib="usb_a_pcb" part="USB_A_PCB" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>60853ED1</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>LED</value>
+      <footprint>LED_SMD:LED_0201_0603Metric_Pad0.64x0.40mm_HandSolder</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="LED" description="Light emitting diode"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>608653BE</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>470</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder</footprint>
+      <fields>
+        <field name="Field4"> </field>
+      </fields>
+      <libsource lib="SparkFun-Resistors" part="RESISTOR0402" description="Generic Resistor Package"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>60868302</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>A</value>
+      <footprint>Button_Switch_THT:SW_Tactile_Straight_KSA0Axx1LFTR</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>60872912</tstamp>
+    </comp>
+    <comp ref="SW2">
+      <value>B</value>
+      <footprint>Button_Switch_THT:SW_Tactile_Straight_KSA0Axx1LFTR</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6087810F</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>JST_6_PIN_VERTICAL</value>
+      <footprint>Connectors:1X06</footprint>
+      <fields>
+        <field name="Field4">CONN-08249</field>
+      </fields>
+      <libsource lib="SparkFun-Connectors" part="JST_6_PIN_VERTICAL" description="JST 6 pin vertical connector Here is a six pin vertical 1.0mm pitch connector. It is useful if you need something very tiny as a connection. These are not the standard JST type connectors we use on most of our boards, but are actually the much smaller JST-SH type. &lt;b&gt;Here is the connector we sell at SparkFun:&lt;/b&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://www.sparkfun.com/products/579&quot;&gt;JST SH Vertical 6-Pin Connector - SMD&lt;/a&gt; (GPS-00579)&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://www.sparkfun.com/datasheets/GPS/EM406-SMDConnector-eSH.pdf&quot;&gt;Datasheet&lt;/a&gt;&lt;/ul&gt; &lt;b&gt;It was used on these SparkFun products:&lt;/b&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://www.sparkfun.com/products/11818&quot;&gt;SparkFun GPS Breakout&lt;/a&gt; (BOB-11818)&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://www.sparkfun.com/products/12081&quot;&gt;SparkFun Weather Shield&lt;/a&gt; (DEV-12081)&lt;/li&gt;&lt;li&gt;And many, many other GPS related products.&lt;/li&gt;&lt;/ul&gt;"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>608A5121</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Device" part="D_Zener">
+      <description>Zener diode</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>TO-???*</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>D_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Zener</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="LED">
+      <description>Light emitting diode</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>LED*</fp>
+        <fp>LED_SMD:*</fp>
+        <fp>LED_THT:*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="MCU_Microchip_ATtiny" part="ATtiny25V-10SU">
+      <aliases>
+        <alias>ATtiny25-20SU</alias>
+        <alias>ATtiny45V-10SU</alias>
+        <alias>ATtiny45-20SU</alias>
+        <alias>ATtiny85V-10SU</alias>
+        <alias>ATtiny85-20SU</alias>
+      </aliases>
+      <description>10MHz, 2kB Flash, 128B SRAM, 128B EEPROM, debugWIRE, SOIJ-8</description>
+      <docs>http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf</docs>
+      <footprints>
+        <fp>SOIJ*5.3x5.3mm*P1.27mm*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">ATtiny25V-10SU</field>
+        <field name="Footprint">Package_SO:SOIJ-8_5.3x5.3mm_P1.27mm</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~RESET~/PB5" type="BiDi"/>
+        <pin num="2" name="XTAL1/PB3" type="BiDi"/>
+        <pin num="3" name="XTAL2/PB4" type="BiDi"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="AREF/PB0" type="BiDi"/>
+        <pin num="6" name="PB1" type="BiDi"/>
+        <pin num="7" name="PB2" type="BiDi"/>
+        <pin num="8" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="SparkFun-Connectors" part="JST_6_PIN_VERTICAL">
+      <description>JST 6 pin vertical connector Here is a six pin vertical 1.0mm pitch connector. It is useful if you need something very tiny as a connection. These are not the standard JST type connectors we use on most of our boards, but are actually the much smaller JST-SH type. &lt;b&gt;Here is the connector we sell at SparkFun:&lt;/b&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="https://www.sparkfun.com/products/579"&gt;JST SH Vertical 6-Pin Connector - SMD&lt;/a&gt; (GPS-00579)&lt;/li&gt;&lt;li&gt;&lt;a href="http://www.sparkfun.com/datasheets/GPS/EM406-SMDConnector-eSH.pdf"&gt;Datasheet&lt;/a&gt;&lt;/ul&gt; &lt;b&gt;It was used on these SparkFun products:&lt;/b&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="https://www.sparkfun.com/products/11818"&gt;SparkFun GPS Breakout&lt;/a&gt; (BOB-11818)&lt;/li&gt;&lt;li&gt;&lt;a href="https://www.sparkfun.com/products/12081"&gt;SparkFun Weather Shield&lt;/a&gt; (DEV-12081)&lt;/li&gt;&lt;li&gt;And many, many other GPS related products.&lt;/li&gt;&lt;/ul&gt;</description>
+      <footprints>
+        <fp>*JST-6-SMD-VERT-1.0MM*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">JST_6_PIN_VERTICAL</field>
+        <field name="Footprint">JST-6-SMD-VERT-1.0MM</field>
+        <field name="Field4">CONN-08249</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="BiDi"/>
+        <pin num="2" name="2" type="BiDi"/>
+        <pin num="3" name="3" type="BiDi"/>
+        <pin num="4" name="4" type="BiDi"/>
+        <pin num="5" name="5" type="BiDi"/>
+        <pin num="6" name="6" type="BiDi"/>
+      </pins>
+    </libpart>
+    <libpart lib="SparkFun-Resistors" part="RESISTOR0402">
+      <description>Generic Resistor Package</description>
+      <footprints>
+        <fp>*0402*</fp>
+        <fp>*0603*</fp>
+        <fp>*0805*</fp>
+        <fp>*1206*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">RESISTOR0402</field>
+        <field name="Footprint">0402</field>
+        <field name="Field4"> </field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switch" part="SW_Push">
+      <description>Push button switch, generic, two pins</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_Push</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="usb_a_pcb" part="USB_A_PCB">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">USB_A_PCB</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VBUS" type="power_in"/>
+        <pin num="2" name="D-" type="input"/>
+        <pin num="3" name="D+" type="input"/>
+        <pin num="4" name="GND" type="power_in"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Device">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Device.lib</uri>
+    </library>
+    <library logical="MCU_Microchip_ATtiny">
+      <uri>C:\Program Files\KiCad\share\kicad\library/MCU_Microchip_ATtiny.lib</uri>
+    </library>
+    <library logical="SparkFun-Connectors">
+      <uri>C:\Users\nicola\Downloads\SparkFun-KiCad-Libraries-master\Libraries\SparkFun-Connectors.lib</uri>
+    </library>
+    <library logical="SparkFun-Resistors">
+      <uri>C:\Users\nicola\Downloads\SparkFun-KiCad-Libraries-master\Libraries\SparkFun-Resistors.lib</uri>
+    </library>
+    <library logical="Switch">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Switch.lib</uri>
+    </library>
+    <library logical="usb_a_pcb">
+      <uri>C:\Users\nicola\git\PwdToken\Board\PwdToken/usb_a_pcb.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(J2-Pad4)">
+      <node ref="U1" pin="7"/>
+      <node ref="SW1" pin="1"/>
+      <node ref="J2" pin="4"/>
+    </net>
+    <net code="2" name="GND">
+      <node ref="D3" pin="2"/>
+      <node ref="D2" pin="2"/>
+      <node ref="J2" pin="6"/>
+      <node ref="J1" pin="4"/>
+      <node ref="D1" pin="1"/>
+      <node ref="U1" pin="4"/>
+      <node ref="SW2" pin="2"/>
+      <node ref="SW1" pin="2"/>
+    </net>
+    <net code="3" name="Net-(J2-Pad2)">
+      <node ref="U1" pin="5"/>
+      <node ref="J2" pin="2"/>
+      <node ref="SW2" pin="1"/>
+    </net>
+    <net code="4" name="Net-(J2-Pad3)">
+      <node ref="U1" pin="6"/>
+      <node ref="J2" pin="3"/>
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="5" name="Net-(D1-Pad2)">
+      <node ref="D1" pin="2"/>
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="6" name="Net-(J2-Pad1)">
+      <node ref="U1" pin="1"/>
+      <node ref="J2" pin="1"/>
+    </net>
+    <net code="7" name="Net-(R2-Pad1)">
+      <node ref="U1" pin="2"/>
+      <node ref="R2" pin="1"/>
+    </net>
+    <net code="8" name="Net-(R3-Pad1)">
+      <node ref="R3" pin="1"/>
+      <node ref="U1" pin="3"/>
+    </net>
+    <net code="9" name="VCC">
+      <node ref="R4" pin="1"/>
+      <node ref="J2" pin="5"/>
+      <node ref="J1" pin="1"/>
+      <node ref="U1" pin="8"/>
+    </net>
+    <net code="10" name="Net-(D3-Pad1)">
+      <node ref="R2" pin="2"/>
+      <node ref="D3" pin="1"/>
+      <node ref="J1" pin="2"/>
+      <node ref="R4" pin="2"/>
+    </net>
+    <net code="11" name="Net-(D2-Pad1)">
+      <node ref="D2" pin="1"/>
+      <node ref="J1" pin="3"/>
+      <node ref="R3" pin="2"/>
+    </net>
+  </nets>
+</export>

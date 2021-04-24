@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name usb_a_pcb)(type Legacy)(uri ${KIPRJMOD}/usb_a_pcb.lib)(options "")(descr ""))
+  (lib (name attiny25v-10su)(type Legacy)(uri ${KIPRJMOD}/attiny25v-10su.lib)(options "")(descr ""))
+)
