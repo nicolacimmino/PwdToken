@@ -86,11 +86,13 @@ Alternatively, if you really want to go serious you can find all the Kicad files
 
 ### Special bootloader (optional)
 
-You can replace the standard "micronucleus" bootloader that comes with the Digistump with a version that doesn't wait in the bootloader by default when started. This makes your PwdToken immediately available when plugging it. Once you uploaded the re-configured bootloader you will need to pull P0 low (press button B before inserting the board in the USB port). To carry out this step you will need an ISP, I tested this with a USBASP. Others shouldn't be that much different but you will need to tweak the actual programming command. 
+You can replace the standard "micronucleus" bootloader that comes with the Digistump and other ATTiny borards, with a version that doesn't wait in the bootloader by default when started. This makes your PwdToken immediately available when plugging it. Once you uploaded the re-configured bootloader you will need to pull P0 low (press button B before inserting the board in the USB port). To carry out this step you will need an ISP. I tested this with a USBASP. Others shouldn't be that much different but you will need to tweak the actual programming command. 
 
 If you choose to skip this step the downside will be that once you plug your board in the USB port you will need to wait about 6 seconds for the bootloader to give up and your program to start.
 
-Another benefit of the modified bootloader is that it will erase the user program as soon as it's entered. In this way it won't be possible in any way to attempt to exfiltrate the passwords through USB. **NOTE**: it will be still possible to get to them if the attacker has access to all pins (device not epoxied) as he will be able to replace the bootloader.
+Another tweak to the bootloader that can make the device safer, is to enable deletion of the user program as soon as it's  the bootloader is entered. In this way it won't be possible in any way to attempt to exfiltrate the passwords through USB. 
+
+**NOTE**: it will be still possible to get to them if the attacker has access to all pins (device not epoxied) as he will be able to replace the bootloader.
 
 See the readme in the "mirconucleus" folder below for instructions on building and flashing the special bootloader.
 
