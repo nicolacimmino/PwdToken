@@ -74,10 +74,15 @@ There's a meachanism (optional) to keep track of the boots count and amount of t
 
 ### The hardware
 
-You will need a Digispark Digistump or another ATTiny85 board with USB. Additionally you will need two push buttons. Connect them between P0 and P2 and ground. See photo for one of my prototypes.
+If you want to just give this a spin a quick way to start is with a Digispark Digistump or another ATTiny85 board with USB. You will need to add two push buttons. Connect them between P0 and P2 and ground. See photo for one of my prototypes.
 
 ![board](Docs/board.png)
 
+If you feel instead like wire wrapping and you have a DIP ATTiny85 you can follow this schematic. J2 is needed only if you need to burn a bootloader, if your ATTiny is already loaded with a bootloader you can omit it.
+
+![board](Docs/schematic.png)
+
+Alternatively, if you really want to go serious you can find all the Kicad files for the board in the `Board` folder.
 
 ### Special bootloader (optional)
 
