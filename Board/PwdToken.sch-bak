@@ -19,7 +19,7 @@ U 1 1 608558E4
 P 3450 3450
 F 0 "U1" H 3050 4000 50  0000 R CNN
 F 1 "ATtiny85-20SU" H 4100 2850 50  0000 R CNN
-F 2 "Package_SO:SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.29x3mm" H 3450 3450 50  0001 C CIN
+F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 3450 3450 50  0001 C CIN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf" H 3450 3450 50  0001 C CNN
 	1    3450 3450
 	1    0    0    -1  
