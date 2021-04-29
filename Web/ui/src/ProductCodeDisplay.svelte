@@ -1,7 +1,12 @@
 <script>
     import moment from "moment"
+    import "./style.css"
 
     export let productCode
+
+    function getProductCodeLetters() {
+        return [...productCode];
+    }
 
     function getSoftwareVersion() {
         return productCode.substring(0, 3);
@@ -55,9 +60,15 @@
     }
 </script>
 
-<div class="productCodeDisplay">
+<div class="productCodeDisplay card">
     <div class="productCode">
-        {productCode}
+        <div class="productElements">
+            {#each getProductCodeLetters() as letter }
+                <div>
+                    {letter}
+                </div>
+            {/each}
+        </div>
     </div>
 
     <div>
@@ -95,26 +106,52 @@
         {getSecureBootloader() ? "Yes" : "No"}
     </div>
 
+    <svg id="linesCanvas" width="500" height="500">
+        <line x1="50" y1="50" x2="350" y2="350" stroke="black"/>
+    </svg>
 </div>
+
 
 <style>
     .productCodeDisplay {
+        position: relative;
+        font-family: "Courier New", sans-serif;
+        width: 800px;
+        margin: auto;
         display: grid;
         grid-template-columns: 200px 400px;
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
         gap: 0px 0px;
         grid-template-areas:
-    "productCode productCode"
-    ". . "
-    ". . "
-    ". . "
-    ". . "
-    ". . ";
+            "productCode productCode"
+            ". . "
+            ". . "
+            ". . "
+            ". . "
+            ". . ";
     }
 
     .productCode {
         grid-area: productCode;
         text-align: center;
         font-weight: bold;
+    }
+
+    .productElements {
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            ". . . . . . . .";
+    }
+
+    .productElements div {
+        border: black dotted 1px;
+    }
+
+    .productCodeDisplay #linesCanvas {
+        position: relative;
+        top: 0;
+        left: 0;
     }
 </style>
