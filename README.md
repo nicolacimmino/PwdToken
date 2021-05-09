@@ -167,4 +167,13 @@ OTP: 3158792869
 You can use the `; Hash Backslash: # \` line to validate that the current keyboard layout is correct. Most of the rest of the information in the banner is data needed by the command line utility to validate the boot and password retrieval counters.
 
 
+## Encase it
+
+In the `case` folder you will find a FreeCad project for a simple case for the token. This is suitable to be filled with epoxy to prevent (easy) access to the passwords through the ISP interface. There's no provision for screws or other fixing mechanisms, the two halves of the shell are meant to be glued together once the epoxy is set.
+
+Top             |  Bottom    | Assembled
+:-------------------------:|:-------------------------:|:-------------------------:
+![board](Docs/case_top.png)  |  ![board](Docs/case_bottom.png) |  ![board](Docs/case_assembled.png)
+
+
 
