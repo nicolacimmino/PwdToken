@@ -38,6 +38,8 @@ Security features:
 &nbsp;&nbsp;&nbsp;&nbsp;[Retrieve a password](#retrieve-a-password)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;[Getting the token banner](#getting-the-token-banner)<br>
 
+[**Encase it**](#encase-it)
+
 ## Safety
 
 Is it safe?
