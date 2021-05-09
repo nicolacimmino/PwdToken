@@ -134,15 +134,17 @@
     .productCode {
         grid-area: productCode;
         text-align: center;
-        font-weight: bold;
+        font-weight: bolder;
+        font-family: monospace;
+        font-size: large;
     }
 
     .productElements {
         display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(10, 15px) ;
         grid-template-areas:
-            ". . . . . . . .";
+            ". . . . . . . . . .";
     }
 
     .productElements div {
